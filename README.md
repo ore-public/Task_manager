@@ -19,7 +19,7 @@
 | title       | string   |
 | content     | text     |
 | status      | string   |
-| deadline    | integer  |
+| deadline    | datetime |
 | priority    | integer  |
 
 
