@@ -21,6 +21,10 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク詳細のテスト" do
+    Task.create!(title: 'test_task_01', content: 'testtesttest')
 
+    visit @task
+
+    expect(page).to have_content 'testtesttest'
   end
 end
