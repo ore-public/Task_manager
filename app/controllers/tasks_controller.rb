@@ -39,7 +39,7 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    redirect_to root, notice: 'タスクの削除に成功しました'
+    redirect_to "/", notice: 'タスクの削除に成功しました'
   end
 
   private
