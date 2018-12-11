@@ -1,14 +1,18 @@
 require 'rails_helper'
 
 RSpec.feature "タスク管理機能", type: :feature do
-  scenario "タスク一覧のテスト" do
-    Task.create!(title: 'test_task_01', content: 'testtesttest')
-    Task.create!(title: 'test_task_02', content: 'samppletest')
 
+  background do
+    FactoryBot.create(:task)
+    FactoryBot.create(:second_task)
+  end
+
+
+  scenario "タスク一覧のテスト" do
     visit "/"
 
-    expect(page).to have_content 'testtesttest'
-    expect(page).to have_content 'samppletest'
+    expect(page).to have_content 'コンテント１'
+    expect(page).to have_content 'コンテント２'
   end
 
   scenario "タスク作成のテスト" do
@@ -21,10 +25,14 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク詳細のテスト" do
-    Task.create!(title: 'test_task_01', content: 'testtesttest')
-
     visit @task
 
-    expect(page).to have_content 'testtesttest'
+    expect(page).to have_content 'コンテント１'
+  end
+
+  scenario "タスクが作成日時の降順に並んでいるかのテスト" do
+    visit "/"
+    expect(all(:css, '.task_content')[0]).to have_content 'コンテント２'
+    expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
   end
 end
