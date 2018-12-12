@@ -4,6 +4,7 @@
   <div class="task_content">
     <%= task.content %><br>
   </div>
+  <%= task.deadline.strftime('%Y/%m/%d %H:%M') %><br>
   <%= link_to "詳細", task %><br>
   <%= link_to "編集", edit_task_path(task) %><br>
   <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %><br>
