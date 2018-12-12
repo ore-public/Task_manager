@@ -19,6 +19,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     visit new_task_path
     fill_in "タスク名", with: "maybete"
     fill_in "タスク詳細", with: "maybetest"
+    select "2020", from: "task_deadline_1i"
     click_on "登録する"
 
     expect(page).to have_content 'maybete'
@@ -34,5 +35,12 @@ RSpec.feature "タスク管理機能", type: :feature do
     visit "/"
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント２'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
+  end
+
+  scenario "終了期日降順ボタンが正常機能しているかのテスト" do
+    visit root_path
+    click_on "終了期日でソート"
+    expect(all(:css, '.task_content')[0]).to have_content 'コンテント１'
+    expect(all(:css, '.task_content')[1]).to have_content 'コンテント２'
   end
 end
