@@ -3,8 +3,22 @@ class Task < ApplicationRecord
   validates :content, presence: true, length: { maximum: 4000 }
   validates :deadline, presence: true
   validates :status, presence: true
-  validate :defining_deadline_is_over
+  validate :defining_deadline_is_over, on: :create
   validate :cheat_on_status
+
+  def self.search(tasks)
+    search = tasks[:search]
+    status_s = tasks[:status_s]
+    if status_s == "" && search == ""
+      all
+    elsif search && status_s == ""
+      where(['title LIKE ?', "%#{search}%"])
+    elsif status_s && search
+      where(['title LIKE ?', "%#{search}%"]).where(status: "#{status_s}")
+    else
+      all
+    end
+  end
 
   private
   def defining_deadline_is_over
