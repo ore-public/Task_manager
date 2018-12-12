@@ -7,8 +7,8 @@ class Task < ApplicationRecord
   validate :cheat_on_status
 
   def self.search(tasks)
-    search = tasks[:search]
-    status_s = tasks[:status_s]
+      search = tasks[:search]
+      status_s = tasks[:status_s]
     if status_s == "" && search == ""
       all
     elsif search && status_s == ""

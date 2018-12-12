@@ -4,9 +4,11 @@ class TasksController < ApplicationController
 
   def index
     if params[:sort]
-      @tasks = Task.all.order(deadline: :desc).search(params[:task])
-    else
+      @tasks = Task.all.order(deadline: :desc)
+    elsif params[:task]
       @tasks = Task.all.order(created_at: :desc).search(params[:task])
+    else
+      @tasks = Task.all.order(created_at: :desc)
     end
   end
 
