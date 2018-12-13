@@ -8,6 +8,8 @@ ja:
         title: "タスク名"
         content: "タスク詳細"
         deadline: "終了期日"
+        status: "状況"
+        priority: "優先度"
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"

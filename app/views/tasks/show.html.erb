@@ -4,6 +4,7 @@
 <%= @task.content %><br>
 <%= @task.deadline.strftime('%Y/%m/%d %H:%M')  %><br>
 <%= @task.status %><br>
+<%= @task.priority %><br>
 <%= link_to "編集", edit_task_path(@task) %><br>
 <%= link_to "戻る", "/" %><br>
 <%= link_to "削除", @task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %><br>

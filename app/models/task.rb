@@ -3,8 +3,12 @@ class Task < ApplicationRecord
   validates :content, presence: true, length: { maximum: 4000 }
   validates :deadline, presence: true
   validates :status, presence: true
+  validates :priority, presence: true
   validate :defining_deadline_is_over, on: :create
   validate :cheat_on_status
+  validate :cheat_on_priority
+
+  enum priority: [:low, :middle, :high]
 
   def self.search(tasks)
       search = tasks[:search]
@@ -30,6 +34,12 @@ class Task < ApplicationRecord
   def cheat_on_status
     if self.status != "未着手" && self.status != "着手中" && self.status != "完了"
       errors.add(:status, "の値が不正です")
+    end
+  end
+
+  def cheat_on_priority
+    if self.priority < 0 && self.priority > 2
+      errors.add(:priority, "の値が不正です")
     end
   end
 end
