@@ -6,14 +6,15 @@ class Task < ApplicationRecord
   validates :priority, presence: true
   validate :defining_deadline_is_over, on: :create
   validate :cheat_on_status
-  validate :cheat_on_priority
+  # validate :cheat_on_priority
 
-  enum priority: [:low, :middle, :high]
+  enum priority: {low: 0, middle: 1, high: 2}
 
   def self.search(tasks)
       search = tasks[:search]
       status_s = tasks[:status_s]
-    if status_s == "" && search == ""
+      priority = tasks[:priority]
+    if status_s == "" && search == "" && priority == ""
       all
     elsif search && status_s == ""
       where(['title LIKE ?', "%#{search}%"])
@@ -37,9 +38,9 @@ class Task < ApplicationRecord
     end
   end
 
-  def cheat_on_priority
-    if self.priority < 0 && self.priority > 2
-      errors.add(:priority, "の値が不正です")
-    end
-  end
+  # def cheat_on_priority
+  #   if self.priority < 0 && self.priority > 2
+  #     errors.add(:priority, "の値が不正です")
+  #   end
+  # end
 end

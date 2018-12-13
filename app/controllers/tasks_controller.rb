@@ -24,7 +24,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(priority_int(task_params))
     if @task.save
       redirect_to @task, notice: 'タスクの保存に成功しました'
     else
@@ -36,7 +36,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    if @task.update(task_params)
+    if @task.update(priority_int(task_params))
       redirect_to @task, notice: 'タスクの編集に成功しました'
     else
       render :edit
@@ -54,6 +54,11 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :deadline, :status)
+    params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+  end
+
+  def priority_int(task_params)
+    task_params["priority"] = task_params["priority"].to_i
+    return task_params
   end
 end

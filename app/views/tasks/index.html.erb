@@ -3,6 +3,7 @@
 <%= form_with(model: Task.new, local: true, method: :get, url: root_path) do |f| %>
   <%= f.text_field :search %>
   <%= f.select :status_s, options_for_select(["未着手","着手中","完了"]), include_blank: true %>
+  <%= f.select :priority, options_for_select({low: 0, middle: 1, high: 2}), include_blank: true %>
   <%= f.submit 'Search', :name => nil %>
 <% end %>
 <br>

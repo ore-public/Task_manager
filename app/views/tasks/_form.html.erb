@@ -31,7 +31,7 @@
 
   <div class="field">
     <%= form.label :priority %>
-    <%= form.select :priority, Task.priorities.keys.to_a, {} %>
+    <%= form.select :priority, Task.priorities.to_a, {}, class: "form-control" %>
   </div>
 
   <div class="ations">
