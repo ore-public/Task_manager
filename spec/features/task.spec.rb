@@ -43,4 +43,12 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント１'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント２'
   end
+
+  scenario "検索機能が正常に機能しているかテスト" do
+    visit root_path
+    fill_in "task[search]", with: "タイトル２"
+    click_on "Search"
+    expect(all(:css, '.task_content')[0]).to have_content 'コンテント２'
+  end
+
 end

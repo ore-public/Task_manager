@@ -1,5 +1,10 @@
 <h1>タスク一覧</h1>
 <%= link_to "終了期日でソート", root_path(sort: "true") %>
+<%= form_with(model: Task.new, local: true, method: :get, url: root_path) do |f| %>
+  <%= f.text_field :search %>
+  <%= f.select :status_s, options_for_select(["未着手","着手中","完了"]), include_blank: true %>
+  <%= f.submit 'Search', :name => nil %>
+<% end %>
 <br>
 <br>
 <% @tasks.each do |task| %>
@@ -8,6 +13,7 @@
     <%= task.content %><br>
   </div>
   <%= task.deadline.strftime('%Y/%m/%d %H:%M') %><br>
+  <%= task.status %><br>
   <%= link_to "詳細", task %><br>
   <%= link_to "編集", edit_task_path(task) %><br>
   <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %><br>
