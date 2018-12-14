@@ -6,7 +6,7 @@ class Task < ApplicationRecord
   validates :priority, presence: true
   validate :defining_deadline_is_over, on: :create
   validate :cheat_on_status
-  validate :cheat_on_priority
+  # validate :cheat_on_priority
 
   enum priority: {low: 0, middle: 1, high: 2}
 
@@ -37,9 +37,9 @@ class Task < ApplicationRecord
   end
 
   #datebase limitで対応可能！
-  def cheat_on_priority
-    if self.priority < 0 && self.priority > 2
-      errors.add(:priority, "の値が不正です")
-    end
-  end
+  # def cheat_on_priority
+  #   if self.priority < 0 && self.priority > 2
+  #     errors.add(:priority, "の値が不正です")
+  #   end
+  # end
 end

@@ -4,7 +4,11 @@ class TasksController < ApplicationController
 
   def index
     if params[:task]
-      @tasks = Task.all.title_search(params[:task]).status_choise(params[:task]).priority_choise(params[:task]).deadline_order(params[:task])
+      @tasks = Task.all
+                  .title_search(params[:task])
+                  .status_choise(params[:task])
+                  .priority_choise(params[:task])
+                  .deadline_order(params[:task])
       @form_default = params[:task]
     else
       @tasks = Task.all.order(created_at: :desc)
@@ -53,7 +57,12 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :deadline, :status, :priority)
+    params.require(:task)
+          .permit(:title,
+                  :content,
+                  :deadline,
+                  :status,
+                  :priority)
   end
 
   def priority_int(task_params)
