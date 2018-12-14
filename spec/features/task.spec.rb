@@ -81,4 +81,15 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント３'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
   end
+
+  scenario "優先度順ソートが正常に機能しているかテスト" do
+    visit root_path
+    select '優先度順', from: "task[priority_s]"
+    click_on "Search"
+    expect(all(:css, '.task_content')[0]).to have_content 'コンテント３'
+    expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
+    expect(all(:css, '.task_content')[2]).to have_content 'コンテント４'
+    expect(all(:css, '.task_content')[3]).to have_content 'コンテント２'
+    expect(all(:css, '.task_content')[4]).to have_content 'コンテント５'
+  end
 end

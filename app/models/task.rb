@@ -22,6 +22,7 @@ class Task < ApplicationRecord
   scope :title_search, -> (tasks) { where(['title LIKE ?', "%#{tasks[:search]}%"]) if tasks[:search].present? }
   scope :status_choise, -> (tasks) { where(status: "#{tasks[:status_s]}") if tasks[:status_s].present? }
   scope :priority_choise, -> (tasks) { where(priority: "#{tasks[:priority]}") if tasks[:priority].present?}
+  scope :priority_order, -> (tasks) { order(priority: :desc) if tasks[:priority_s].present? }
 
   private
   def defining_deadline_is_over

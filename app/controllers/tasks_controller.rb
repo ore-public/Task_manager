@@ -8,6 +8,7 @@ class TasksController < ApplicationController
                   .title_search(params[:task])
                   .status_choise(params[:task])
                   .priority_choise(params[:task])
+                  .priority_order(params[:task])
                   .deadline_order(params[:task])
       @form_default = params[:task]
     else
