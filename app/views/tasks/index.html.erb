@@ -1,4 +1,4 @@
-<h1>タスク一覧</h1>
+<br>
 <%= link_to("検索初期化", root_path) %>
 <%= form_with(model: Task.new, local: true, method: :get, url: root_path) do |f| %>
 <% @form_default = {search: "", status_s: "", priority: "", priority_s: "", deadline_c: ""} if @form_default.nil? %>
@@ -13,18 +13,42 @@
 <br>
 <% page_entries_info @tasks %>
 
-<% @tasks.each do |task| %>
-  <%= task.title %><br>
-  <div class="task_content">
-    <%= task.content %><br>
+<div class="row">
+  <% @tasks.each do |task| %>
+  <div class="col-md-6 col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <h5><%= task.title %></h5>
+        <h6>期限：<%= task.deadline.strftime('%Y/%m/%d %H:%M') %></h6>
+
+        <% if task.status == "未着手" %>
+          <span class="badge badge-secondary"><%= task.status %></span>
+        <% elsif task.status == "着手中" %>
+          <span class="badge badge-warning"><%= task.status %></span>
+        <% else %>
+          <span class="badge badge-success"><%= task.status %></span>
+        <% end %>
+
+        <% if task.priority == "high" %>
+          <span class="badge badge-danger"><%= task.priority %></span>
+        <% elsif task.priority == "middle" %>
+          <span class="badge badge-success"><%= task.priority %></span>
+        <% else %>
+          <span class="badge badge-primary"><%= task.priority %></span>
+        <% end %>
+      </div>
+      <div class="card-body">
+
+        <div class="task_content card-text">
+          <%= simple_format(task.content) %><br>
+        </div>
+        <%= link_to "詳細", task %>
+        <%= link_to "編集", edit_task_path(task) %>
+        <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %>
+      </div>
+    </div><br>
   </div>
-  <%= task.deadline.strftime('%Y/%m/%d %H:%M') %><br>
-  <%= task.status %><br>
-  <%= task.priority %><br>
-  <%= link_to "詳細", task %><br>
-  <%= link_to "編集", edit_task_path(task) %><br>
-  <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %><br>
-  <hr>
-<% end %>
+  <% end %>
+</div>
 
 <%= paginate @tasks %>
