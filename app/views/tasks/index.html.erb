@@ -11,6 +11,8 @@
 <% end %>
 <br>
 <br>
+<% page_entries_info @tasks %>
+
 <% @tasks.each do |task| %>
   <%= task.title %><br>
   <div class="task_content">
@@ -24,3 +26,5 @@
   <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %><br>
   <hr>
 <% end %>
+
+<%= paginate @tasks %>

@@ -10,9 +10,11 @@ class TasksController < ApplicationController
                   .priority_choise(params[:task])
                   .priority_order(params[:task])
                   .deadline_order(params[:task])
+      @tasks = Task.page(params[:page]).per(20)
       @form_default = params[:task]
     else
       @tasks = Task.all.order(created_at: :desc)
+      @tasks = Task.page(params[:page]).per(20)
     end
   end
 
