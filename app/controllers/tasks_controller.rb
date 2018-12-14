@@ -3,10 +3,8 @@ class TasksController < ApplicationController
 
 
   def index
-    if params[:sort]
-      @tasks = Task.all.order(deadline: :desc)
-    elsif params[:task]
-      @tasks = Task.all.order(created_at: :desc).search(params[:task])
+    if params[:task]
+      @tasks = Task.all.title_search(params[:task]).status_choise(params[:task]).priority_choise(params[:task]).deadline_order(params[:task])
     else
       @tasks = Task.all.order(created_at: :desc)
     end
@@ -58,7 +56,7 @@ class TasksController < ApplicationController
   end
 
   def priority_int(task_params)
-    task_params["priority"] = task_params["priority"].to_i
+    task_params[:priority] = task_params[:priority].to_i
     return task_params
   end
 end
