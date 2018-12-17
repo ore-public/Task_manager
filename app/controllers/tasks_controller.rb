@@ -3,10 +3,14 @@ class TasksController < ApplicationController
 
 
   def index
-    if params[:sort]
-      @tasks = Task.all.order(deadline: :desc)
-    elsif params[:task]
-      @tasks = Task.all.order(created_at: :desc).search(params[:task])
+    if params[:task]
+      @tasks = Task.all
+                  .title_search(params[:task])
+                  .status_choise(params[:task])
+                  .priority_choise(params[:task])
+                  .priority_order(params[:task])
+                  .deadline_order(params[:task])
+      @form_default = params[:task]
     else
       @tasks = Task.all.order(created_at: :desc)
     end
@@ -24,7 +28,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(priority_int(task_params))
     if @task.save
       redirect_to @task, notice: 'タスクの保存に成功しました'
     else
@@ -36,7 +40,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    if @task.update(task_params)
+    if @task.update(priority_int(task_params))
       redirect_to @task, notice: 'タスクの編集に成功しました'
     else
       render :edit
@@ -54,6 +58,16 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, :deadline, :status)
+    params.require(:task)
+          .permit(:title,
+                  :content,
+                  :deadline,
+                  :status,
+                  :priority)
+  end
+
+  def priority_int(task_params)
+    task_params[:priority] = task_params[:priority].to_i
+    return task_params
   end
 end

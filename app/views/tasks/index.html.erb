@@ -1,8 +1,12 @@
 <h1>タスク一覧</h1>
-<%= link_to "終了期日でソート", root_path(sort: "true") %>
+<%= link_to("検索初期化", root_path) %>
 <%= form_with(model: Task.new, local: true, method: :get, url: root_path) do |f| %>
-  <%= f.text_field :search %>
-  <%= f.select :status_s, options_for_select(["未着手","着手中","完了"]), include_blank: true %>
+<% @form_default = {search: "", status_s: "", priority: "", priority_s: "", deadline_c: ""} if @form_default.nil? %>
+  <%= f.text_field :search, value: "#{@form_default[:search]}" %>
+  <%= f.select :status_s, options_for_select(["未着手","着手中","完了"], selected: "#{@form_default[:status_s]}"), include_blank: true%>
+  <%= f.select :priority_s, options_for_select(["優先度順"], selected: "#{@form_default[:priority_s]}"), include_blank: true %>
+  <%= f.select :priority, options_for_select({low: 0, middle: 1, high: 2}, selected: "#{@form_default[:priority]}"), include_blank: true %>
+  <%= f.select :deadline_c, options_for_select(["期日昇順","期日降順"], selected: "#{@form_default[:deadline_c]}"), include_blank: true %>
   <%= f.submit 'Search', :name => nil %>
 <% end %>
 <br>
@@ -14,6 +18,7 @@
   </div>
   <%= task.deadline.strftime('%Y/%m/%d %H:%M') %><br>
   <%= task.status %><br>
+  <%= task.priority %><br>
   <%= link_to "詳細", task %><br>
   <%= link_to "編集", edit_task_path(task) %><br>
   <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %><br>

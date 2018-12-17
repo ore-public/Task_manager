@@ -3,22 +3,26 @@ class Task < ApplicationRecord
   validates :content, presence: true, length: { maximum: 4000 }
   validates :deadline, presence: true
   validates :status, presence: true
+  validates :priority, presence: true
   validate :defining_deadline_is_over, on: :create
   validate :cheat_on_status
+  # validate :cheat_on_priority
 
-  def self.search(tasks)
-      search = tasks[:search]
-      status_s = tasks[:status_s]
-    if status_s == "" && search == ""
-      all
-    elsif search && status_s == ""
-      where(['title LIKE ?', "%#{search}%"])
-    elsif status_s && search
-      where(['title LIKE ?', "%#{search}%"]).where(status: "#{status_s}")
+  enum priority: {low: 0, middle: 1, high: 2}
+
+  scope :deadline_order, -> tasks do
+    if tasks[:deadline_c] == "期日昇順"
+      order(deadline: :asc)
+    elsif tasks[:deadline_c] == "期日降順"
+      order(deadline: :desc)
     else
-      all
+      order(created_at: :desc)
     end
   end
+  scope :title_search, -> (tasks) { where(['title LIKE ?', "%#{tasks[:search]}%"]) if tasks[:search].present? }
+  scope :status_choise, -> (tasks) { where(status: "#{tasks[:status_s]}") if tasks[:status_s].present? }
+  scope :priority_choise, -> (tasks) { where(priority: "#{tasks[:priority]}") if tasks[:priority].present?}
+  scope :priority_order, -> (tasks) { order(priority: :desc) if tasks[:priority_s].present? }
 
   private
   def defining_deadline_is_over
@@ -32,4 +36,11 @@ class Task < ApplicationRecord
       errors.add(:status, "の値が不正です")
     end
   end
+
+  #datebase limitで対応可能！
+  # def cheat_on_priority
+  #   if self.priority < 0 && self.priority > 2
+  #     errors.add(:priority, "の値が不正です")
+  #   end
+  # end
 end
