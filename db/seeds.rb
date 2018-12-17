@@ -8,7 +8,8 @@
 # coding: utf-8
 
 50.times do |no|
-  i = no.to_i
+  d = rand(1..29)
+  m = rand(1..12)
   priority = no % 3
   num = no % 4
   if num == 0
@@ -23,7 +24,7 @@
 
   Task.create(title: "タイトル #{no}",
               content: "内容#{no}",
-              deadline: DateTime.new(2019, 12, 22, 00, i, 00),
+              deadline: DateTime.new(2019, m, d, 00, 00, 00),
               status: state,
               priority: priority
               )
