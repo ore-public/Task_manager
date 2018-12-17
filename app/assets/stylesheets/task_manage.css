@@ -6,3 +6,11 @@ table {
   position: relative;
   width: 80%;
 }
+
+.pagination span{
+  padding: 5px 10px;
+}
+
+.min_hight{
+  min-height: 200px;
+}
