@@ -9,8 +9,7 @@ RSpec.feature "タスク管理機能", type: :feature do
     FactoryBot.create(:task4)
     FactoryBot.create(:task5)
   end
-
-
+  
   scenario "タスク一覧のテスト" do
     visit "/"
 

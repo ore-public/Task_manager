@@ -4,7 +4,7 @@ class TasksController < ApplicationController
 
   def index
     if params[:task]
-      @tasks = Task.all
+      @tasks = Task.all.page(params[:page]).per(20)
                   .title_search(params[:task])
                   .status_choise(params[:task])
                   .priority_choise(params[:task])
@@ -12,7 +12,8 @@ class TasksController < ApplicationController
                   .deadline_order(params[:task])
       @form_default = params[:task]
     else
-      @tasks = Task.all.order(created_at: :desc)
+      @tasks = Task.all.page(params[:page]).per(20)
+                        .order(created_at: :desc)
     end
   end
 
