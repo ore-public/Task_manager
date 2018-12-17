@@ -14,3 +14,8 @@ table {
 .min_hight{
   min-height: 200px;
 }
+
+.task_content{
+  max-height: 160px;
+  overflow: hidden;
+}
