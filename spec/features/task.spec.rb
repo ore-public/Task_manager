@@ -3,13 +3,15 @@ require 'rails_helper'
 RSpec.feature "タスク管理機能", type: :feature do
 
   background do
-    FactoryBot.create(:task)
-    FactoryBot.create(:second_task)
-    FactoryBot.create(:task3)
-    FactoryBot.create(:task4)
-    FactoryBot.create(:task5)
+    user = FactoryBot.create(:user)
+
+    FactoryBot.create(:task, user_id: user.id)
+    FactoryBot.create(:second_task, user_id: user.id)
+    FactoryBot.create(:task3, user_id: user.id)
+    FactoryBot.create(:task4, user_id: user.id)
+    FactoryBot.create(:task5, user_id: user.id)
   end
-  
+
   scenario "タスク一覧のテスト" do
     visit "/"
 

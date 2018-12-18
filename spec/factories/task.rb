@@ -5,6 +5,7 @@ FactoryBot.define do
     deadline { DateTime.new(2019, 12, 24, 00, 00, 00) }
     status { '着手中' }
     priority { 2 }
+    association :user, factory: :user, name: "john"
   end
 
   factory :second_task, class: Task do
@@ -13,6 +14,7 @@ FactoryBot.define do
     deadline { DateTime.new(2020, 12, 24, 00, 00, 00) }
     status { '完了' }
     priority { 1 }
+    association :user, factory: :user, name: "john"
   end
 
   factory :task3, class: Task do
@@ -21,6 +23,7 @@ FactoryBot.define do
     deadline { DateTime.new(2019, 12, 23, 00, 00, 00) }
     status { '未着手' }
     priority { 2 }
+    association :user, factory: :user, name: "john"
   end
 
   factory :task4, class: Task do
@@ -29,6 +32,7 @@ FactoryBot.define do
     deadline { DateTime.new(2019, 12, 22, 00, 00, 00) }
     status { '未着手' }
     priority { 1 }
+    association :user, factory: :user, name: "john"
   end
 
   factory :task5, class: Task do
@@ -37,5 +41,6 @@ FactoryBot.define do
     deadline { DateTime.new(2019, 12, 21, 00, 00, 00) }
     status { '着手中' }
     priority { 0 }
+    association :user, factory: :user, name: "john"
   end
 end
