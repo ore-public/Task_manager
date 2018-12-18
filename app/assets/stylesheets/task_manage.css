@@ -22,4 +22,5 @@ table {
 
 .container-fluid{
   padding: 0px;
+  min-height: 600px
 }
