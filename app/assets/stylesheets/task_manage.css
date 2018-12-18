@@ -19,3 +19,7 @@ table {
   max-height: 160px;
   overflow: hidden;
 }
+
+.container-fluid{
+  padding: 0px;
+}
