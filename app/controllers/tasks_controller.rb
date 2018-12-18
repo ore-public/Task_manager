@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_check
-  before_action :correct_user_check, except: [:index]
+  before_action :correct_user_check, except: [:index, :new, :create]
   def index
     if params[:task]
       @tasks = Task.where(user_id: current_user.id)

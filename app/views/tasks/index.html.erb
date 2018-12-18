@@ -1,5 +1,5 @@
 <br>
-<div class="alert alert-info text-center">
+<div class="alert alert-secondary text-center">
   <%= form_with(model: Task.new, local: true, method: :get, url: root_path) do |f| %>
   <% @form_default = {search: "", status_s: "", priority: "", priority_s: "", deadline_c: ""} if @form_default.nil? %>
 
