@@ -1,25 +1,21 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-
-
+  before_action :logged_in_check
+  before_action :correct_user_check, except: [:index]
   def index
-    if logged_in?
-      if params[:task]
-        @tasks = Task.where(user_id: current_user.id)
-                    .page(params[:page]).per(20)
-                    .title_search(params[:task])
-                    .status_choise(params[:task])
-                    .priority_choise(params[:task])
-                    .priority_order(params[:task])
-                    .deadline_order(params[:task])
-        @form_default = params[:task]
-      else
-        @tasks = Task.where(user_id: current_user.id)
-                      .page(params[:page]).per(20)
-                      .order(created_at: :desc)
-      end
+    if params[:task]
+      @tasks = Task.where(user_id: current_user.id)
+                  .page(params[:page]).per(20)
+                  .title_search(params[:task])
+                  .status_choise(params[:task])
+                  .priority_choise(params[:task])
+                  .priority_order(params[:task])
+                  .deadline_order(params[:task])
+      @form_default = params[:task]
     else
-      redirect_to new_session_path
+      @tasks = Task.where(user_id: current_user.id)
+                    .page(params[:page]).per(20)
+                    .order(created_at: :desc)
     end
   end
 
@@ -62,6 +58,14 @@ class TasksController < ApplicationController
   private
   def set_task
     @task = Task.find(params[:id])
+  end
+
+  def logged_in_check
+    redirect_to new_session_path unless logged_in?
+  end
+
+  def correct_user_check
+    redirect_to root_path if @task.user_id != current_user.id
   end
 
   def task_params
