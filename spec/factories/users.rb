@@ -3,15 +3,11 @@ FactoryBot.define do
     name { "john" }
     email { "john@dic.jp" }
     password { "aaaaaaaaaa" }
+  end
 
-    #
-    # after(:build) do |user|
-    #   user.tasks << FactoryBot.build(:task, title: "コンテント１")
-    #   user.tasks << FactoryBot.build(:second_task, title: "コンテント２")
-    #   user.tasks << FactoryBot.build(:task3, title: "コンテント３")
-    #   user.tasks << FactoryBot.build(:task4, title: "コンテント４")
-    #   user.tasks << FactoryBot.build(:task5, title: "コンテント５")
-    # end
-
+  factory :not_john, class: User do
+    name { "not_john" }
+    email { "not_john@dic.jp" }
+    password { "bbbbbbbbbb"}
   end
 end

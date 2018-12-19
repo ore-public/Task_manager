@@ -4,17 +4,69 @@ RSpec.feature "タスク管理機能", type: :feature do
 
   background do
     user = FactoryBot.create(:user)
-
+    user_2 = FactoryBot.create(:not_john)
     FactoryBot.create(:task, user_id: user.id)
     FactoryBot.create(:second_task, user_id: user.id)
     FactoryBot.create(:task3, user_id: user.id)
     FactoryBot.create(:task4, user_id: user.id)
     FactoryBot.create(:task5, user_id: user.id)
+    FactoryBot.create(:not_johns_task, user_id: user_2.id)
+
+  end
+
+  scenario "非ログイン時・タスク一覧へ移動するとログインページへ遷移するテスト" do
+    visit root_path
+    expect(page).to have_content "Password"
+  end
+
+  scenario "ユーザー作成・同時にマイページに遷移するテスト" do
+    visit root_path
+    click_on "Sign up"
+    fill_in "Name", with: "josse"
+    fill_in "Email", with: "josse@dic.jp"
+    fill_in "Password", with: "cccccccccc"
+    fill_in "Password confirmation", with: "cccccccccc"
+    click_on "Create my account"
+    expect(page).to have_content "josseのページ"
+  end
+
+  scenario "ログイン時ユーザー登録ができないようテスト" do
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
+    visit new_user_path
+    expect(page).to have_content "タイトル"
+  end
+
+  scenario "他ユーザーのマイページにいけないようテスト" do
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
+    a = User.find_by(name: "not_john")
+
+    visit "/users/#{a.id}"
+    expect(page).to have_content "タイトル"
+  end
+
+  scenario "ログイン機能のテスト" do
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+    expect(page).to have_content "johnのページ"
   end
 
   scenario "タスク一覧のテスト" do
-    visit "/"
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
 
+    visit "/"
     expect(page).to have_content 'コンテント１'
     expect(page).to have_content 'コンテント２'
     expect(page).to have_content 'コンテント３'
@@ -23,6 +75,11 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク作成のテスト" do
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
     visit new_task_path
     fill_in "タスク名", with: "maybete"
     fill_in "タスク詳細", with: "maybetest"
@@ -35,12 +92,22 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "タスク詳細のテスト" do
-    visit @task
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
 
+    visit root_path
+    visit @task
     expect(page).to have_content 'コンテント１'
   end
 
   scenario "タスクが作成日時の降順に並んでいるかのテスト" do
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
     visit "/"
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント５'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント４'
@@ -50,6 +117,11 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "終了期日降順ボタンが正常機能しているかのテスト" do
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
     visit root_path
     find("option[value='期日降順']").select_option
     click_on "Search"
@@ -62,6 +134,11 @@ RSpec.feature "タスク管理機能", type: :feature do
 
   scenario "タイトル検索が正常に機能しているかテスト" do
     visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
+    visit root_path
     fill_in "task[search]", with: "タイトル２"
     click_on "Search"
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント２'
@@ -69,13 +146,28 @@ RSpec.feature "タスク管理機能", type: :feature do
 
   scenario "ステータス絞り込みが正常に機能しているかテスト" do
     visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
+    visit root_path
     find("option[value='着手中']").select_option
     click_on "Search"
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント５'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
   end
 
+  scenario "上記ステータス絞り込みテスト成功により、他ユーザーのタスクが見られないことを実証" do
+  end
+
+
+
   scenario "優先度絞り込みが正常に機能しているかテスト" do
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
     visit root_path
     select 'high', from: "task[priority]"
     click_on "Search"
@@ -84,6 +176,11 @@ RSpec.feature "タスク管理機能", type: :feature do
   end
 
   scenario "優先度順ソートが正常に機能しているかテスト" do
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
+
     visit root_path
     select '優先度順', from: "task[priority_s]"
     click_on "Search"

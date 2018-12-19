@@ -43,4 +43,12 @@ FactoryBot.define do
     priority { 0 }
     association :user, factory: :user, name: "john"
   end
+
+  factory :not_johns_task, class: Task do
+    title { 'タイトル６' }
+    content { 'コンテント６' }
+    deadline { DateTime.new(2019, 12, 23, 00, 00, 00) }
+    status { '着手中' }
+    priority { 0 }
+  end
 end
