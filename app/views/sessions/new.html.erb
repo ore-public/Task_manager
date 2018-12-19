@@ -1,11 +1,26 @@
-<h1>Log in</h1>
-<%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
 
-  <%= f.label :email %>
-  <%= f.email_field :email %>
+<div class="text-center" >
+<br>
+<br>
+<br>
+<br>
+  <div class=" alert alert-secondary offset-3 col-6">
+    <br>
+    <%= form_with(scope: :session, url: sessions_path, local: true, class: "form-signin") do |f| %>
+      <h1 class="h3 mb-3 font-weight-normal" >Log in</h1>
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, class: "form-control offset-3 col-6" %>
+      </div>
 
-  <%= f.submit "Log in" %>
-<% end %>
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: "form-control offset-3 col-6" %>
+      </div>
+
+        <%= f.submit "Log in" , class: "btn btn-primary" %>
+    <% end %>
+    <br>
+  </div>
+</div>
