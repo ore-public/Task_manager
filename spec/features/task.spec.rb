@@ -113,8 +113,6 @@ RSpec.feature "タスク管理機能", type: :feature do
   scenario "上記ステータス絞り込みテスト成功により、他ユーザーのタスクが見られないことを実証" do
   end
 
-
-
   scenario "優先度絞り込みが正常に機能しているかテスト" do
     visit root_path
     fill_in "Email", with: "john@dic.jp"

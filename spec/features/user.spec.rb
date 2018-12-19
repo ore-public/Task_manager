@@ -59,5 +59,4 @@ RSpec.feature "ユーザーログイン機能", type: :feature do
     click_button "Log in"
     expect(page).to have_content "johnのページ"
   end
-
 end
