@@ -1,5 +1,8 @@
 {
   "name": "Task_Manager",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap": "4",
+    "jquery": "^3.3.1"
+  }
 }

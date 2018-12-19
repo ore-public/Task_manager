@@ -1,10 +1,30 @@
-<h1>詳細画面</h1>
+<br>
+<div class="card">
+  <div class="card-header">
+    <h5><%= @task.title %></h5>
+    <h6>期限：<%= @task.deadline.strftime('%Y/%m/%d %H:%M') %></h6>
 
-<%= @task.title %><br>
-<%= @task.content %><br>
-<%= @task.deadline.strftime('%Y/%m/%d %H:%M')  %><br>
-<%= @task.status %><br>
-<%= @task.priority %><br>
-<%= link_to "編集", edit_task_path(@task) %><br>
-<%= link_to "戻る", "/" %><br>
-<%= link_to "削除", @task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %><br>
+    <% if @task.status == "未着手" %>
+      <span class="badge badge-secondary"><%= @task.status %></span>
+    <% elsif @task.status == "着手中" %>
+      <span class="badge badge-warning"><%= @task.status %></span>
+    <% else %>
+      <span class="badge badge-success"><%= @task.status %></span>
+    <% end %>
+
+    <% if @task.priority == "high" %>
+      <span class="badge badge-danger"><%= @task.priority %></span>
+    <% elsif @task.priority == "middle" %>
+      <span class="badge badge-success"><%= @task.priority %></span>
+    <% else %>
+      <span class="badge badge-primary"><%= @task.priority %></span>
+    <% end %>
+  </div>
+  <div class="min_hight">
+    <%= simple_format(@task.content) %>
+  </div>
+</div>
+
+  <%= link_to "編集", edit_task_path(@task) %>
+  <%= link_to "戻る", "/" %>
+  <%= link_to "削除", @task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %>

@@ -1,0 +1,25 @@
+body {
+  background-color: #FBFBEF;
+}
+
+table {
+  position: relative;
+  width: 80%;
+}
+
+.pagination span{
+  padding: 5px 10px;
+}
+
+.min_hight{
+  min-height: 200px;
+}
+
+.task_content{
+  max-height: 160px;
+  overflow: hidden;
+}
+
+.container-fluid{
+  padding: 0px;
+}
