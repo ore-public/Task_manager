@@ -8,6 +8,8 @@ class Task < ApplicationRecord
   validate :cheat_on_status
   # validate :cheat_on_priority
 
+  belongs_to :user
+
   enum priority: {low: 0, middle: 1, high: 2}
 
   scope :deadline_order, -> tasks do

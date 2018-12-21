@@ -26,10 +26,15 @@
               content: "内容#{no}",
               deadline: DateTime.new(2019, m, d, 00, 00, 00),
               status: state,
-              priority: priority
+              priority: priority,
+              user_id: 1
               )
 end
 
 User.create(name: "firstman",
             email: "aaa@dic.jp",
-            passowrd_digest: "aaaaaaaaaa")
+            password: "123456789")
+
+User.create(name: "secondman",
+            email: "bbb@dic.jp",
+            password: "123456789")

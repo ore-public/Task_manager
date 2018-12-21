@@ -1,7 +1,10 @@
 body {
   background-color: #FBFBEF;
+  /* background-image: url(/assets/7808.png);
+  background-size: 20%;
+  background-position: right bottom;
+  background-repeat: no-repeat; */
 }
-
 table {
   position: relative;
   width: 80%;
@@ -22,4 +25,5 @@ table {
 
 .container-fluid{
   padding: 0px;
+  min-height: 750px
 }

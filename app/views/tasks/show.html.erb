@@ -20,8 +20,10 @@
       <span class="badge badge-primary"><%= @task.priority %></span>
     <% end %>
   </div>
-  <div class="min_hight">
-    <%= simple_format(@task.content) %>
+  <div class="card-body">
+    <div class="min_hight card-text">
+      <%= simple_format(@task.content) %>
+    </div>
   </div>
 </div>
 

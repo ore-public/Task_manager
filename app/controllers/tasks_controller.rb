@@ -1,10 +1,11 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-
-
+  before_action :logged_in_check
+  before_action :correct_user_check, except: [:index, :new, :create]
   def index
     if params[:task]
-      @tasks = Task.all.page(params[:page]).per(20)
+      @tasks = Task.where(user_id: current_user.id)
+                  .page(params[:page]).per(20)
                   .title_search(params[:task])
                   .status_choise(params[:task])
                   .priority_choise(params[:task])
@@ -12,8 +13,9 @@ class TasksController < ApplicationController
                   .deadline_order(params[:task])
       @form_default = params[:task]
     else
-      @tasks = Task.all.page(params[:page]).per(20)
-                        .order(created_at: :desc)
+      @tasks = Task.where(user_id: current_user.id)
+                    .page(params[:page]).per(20)
+                    .order(created_at: :desc)
     end
   end
 
@@ -29,7 +31,7 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(priority_int(task_params))
+    @task = Task.new(format_fix(task_params))
     if @task.save
       redirect_to @task, notice: 'タスクの保存に成功しました'
     else
@@ -41,7 +43,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    if @task.update(priority_int(task_params))
+    if @task.update(format_fix(task_params))
       redirect_to @task, notice: 'タスクの編集に成功しました'
     else
       render :edit
@@ -58,6 +60,14 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
+  def logged_in_check
+    redirect_to new_session_path unless logged_in?
+  end
+
+  def correct_user_check
+    redirect_to root_path if @task.user_id != current_user.id
+  end
+
   def task_params
     params.require(:task)
           .permit(:title,
@@ -67,8 +77,9 @@ class TasksController < ApplicationController
                   :priority)
   end
 
-  def priority_int(task_params)
+  def format_fix(task_params)
     task_params[:priority] = task_params[:priority].to_i
+    task_params[:user_id] = current_user.id
     return task_params
   end
 end
