@@ -36,14 +36,13 @@ class Admin::UsersController < ApplicationController
   end
 
   def destroy
-    if User.where(admin: true).count <= 1
-      redirect_to admin_users_path, notice: "削除を実行すると管理者が不在になります"
-    else
       ActiveRecord::Base.transaction do
         @user.destroy!
         User.find_by!(admin: true)
       end
       redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を削除しました"
+    rescue
+      redirect_to admin_users_path, notice: "削除を実行すると管理者が不在になります"
     end
   end
 
@@ -65,4 +64,3 @@ class Admin::UsersController < ApplicationController
       redirect_to root_path, notice: "管理者権限がないとアクセスできません"
     end
   end
-end
