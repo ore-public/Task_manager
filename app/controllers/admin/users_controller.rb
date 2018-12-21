@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
   before_action :set_force_user, only: [:show, :edit, :update, :destroy]
-
+  before_action :admin_check
   def index
     @users = User.all.includes(:tasks)
   end
@@ -47,5 +47,11 @@ class Admin::UsersController < ApplicationController
           .permit(:name,
                   :email,
                   :password)
+  end
+
+  def admin_check
+    unless logged_in? && admin?
+      redirect_to root_path, notice: "管理者権限がないとアクセスできません"
+    end
   end
 end
