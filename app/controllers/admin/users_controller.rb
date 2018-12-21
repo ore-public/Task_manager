@@ -28,7 +28,6 @@ class Admin::UsersController < ApplicationController
       ActiveRecord::Base.transaction do
         @user.update!(user_params)
         User.find_by!(admin: true)
-        # raise ActiveRecord::Rollback if errors.present?
       end
       redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を編集しました"
     rescue
@@ -60,7 +59,5 @@ class Admin::UsersController < ApplicationController
   end
 
   def admin_check
-    unless logged_in? && admin?
-      redirect_to root_path, notice: "管理者権限がないとアクセスできません"
-    end
+    redirect_to root_path, notice: "管理者権限がないとアクセスできません" unless logged_in? && admin?
   end
