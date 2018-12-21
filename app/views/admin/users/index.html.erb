@@ -4,7 +4,7 @@
 <% @users.each do |user| %>
 
   <%= user.id %>:<%= user.name %> (タスク数：<%= user.tasks.count%>)
-  <%= link_to "詳細", admin_user_path(user) %>
-  /<%= link_to "編集", edit_admin_user_path(user) ,class: "#{user.name}-edit"%>
+  <%= link_to "詳細", admin_user_path(user),class: "#{user.name}-show" %>
+  /<%= link_to "編集", edit_admin_user_path(user) ,class: "#{user.name}-edit" %>
   /<%= link_to "削除", admin_user_path(user),class: "#{user.name}-destroy", method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %><br>
 <% end %>

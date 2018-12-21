@@ -41,6 +41,12 @@ RSpec.feature "ユーザ管理画面機能", type: :feature do
     expect(page).to have_content "ユーザーjosseを追加しました"
   end
 
+  scenario "管理画面からユーザーの詳細画面を確認する" do
+    visit admin_users_path
+    find(".john-show").click
+    expect(page).to have_content "john@dic.jp"
+  end
+
   scenario "管理画面からユーザー情報を編集する" do
     visit admin_users_path
     find(".john-edit").click
@@ -55,6 +61,6 @@ RSpec.feature "ユーザ管理画面機能", type: :feature do
   scenario "管理画面からユーザー情報を削除する" do
     visit admin_users_path
     find(".not_john-destroy").click
-    expect(page).to have_content "管理者権限により9:not_johnを削除しました"
+    expect(page).to have_content "not_johnを削除しました"
   end
 end
