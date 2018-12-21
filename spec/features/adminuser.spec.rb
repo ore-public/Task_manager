@@ -11,17 +11,11 @@ RSpec.feature "ユーザ管理画面機能", type: :feature do
     FactoryBot.create(:task4, user_id: user.id)
     FactoryBot.create(:task5, user_id: user.id)
     FactoryBot.create(:not_johns_task, user_id: user_2.id)
+    visit root_path
+    fill_in "Email", with: "john@dic.jp"
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Log in"
   end
-
-    # feature "管理者ログイン" do
-    #   background do
-    #     visit root_path
-    #     fill_in "Email", with: "john@dic.jp"
-    #     fill_in "Password", with: "aaaaaaaaaa"
-    #     click_button "Log in"
-    #
-    #     expect(page).to have_content "johnのページ"
-    #   end
 
   scenario "管理者画面にユーザーが一覧で表示されているかテスト" do
     visit admin_users_path
