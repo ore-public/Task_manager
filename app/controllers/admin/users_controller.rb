@@ -1,8 +1,8 @@
 class Admin::UsersController < ApplicationController
   before_action :set_force_user, only: [:show, :edit, :update, :destroy]
-
+  before_action :admin_check
   def index
-    @users = User.all.includes(:tasks)
+    @users = User.all.includes(:tasks).order(id: "asc")
   end
 
   def show
@@ -25,16 +25,24 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
+      ActiveRecord::Base.transaction do
+        @user.update!(user_params)
+        User.find_by!(admin: true)
+      end
       redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を編集しました"
-    else
-      render :edit
-    end
+    rescue
+      redirect_to admin_users_path, notice: "編集を実行すると管理者が不在になります"
   end
 
   def destroy
-    @user.destroy
-    redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を削除しました"
+      ActiveRecord::Base.transaction do
+        @user.destroy!
+        User.find_by!(admin: true)
+      end
+      redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を削除しました"
+    rescue
+      redirect_to admin_users_path, notice: "削除を実行すると管理者が不在になります"
+    end
   end
 
   private
@@ -46,6 +54,10 @@ class Admin::UsersController < ApplicationController
     params.require(:user)
           .permit(:name,
                   :email,
-                  :password)
+                  :password,
+                  :admin)
   end
-end
+
+  def admin_check
+    redirect_to root_path, notice: "管理者権限がないとアクセスできません" unless logged_in? && admin?
+  end

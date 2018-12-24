@@ -33,7 +33,8 @@ end
 
 User.create(name: "firstman",
             email: "aaa@dic.jp",
-            password: "123456789")
+            password: "123456789",
+            admin: true)
 
 User.create(name: "secondman",
             email: "bbb@dic.jp",
