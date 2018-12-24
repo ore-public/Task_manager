@@ -32,6 +32,14 @@
     <%= form.select :priority, Task.priorities.to_a, {}%>
   </div>
 
+  <% task.field_for :labels do |label| %>
+  <div class="field">
+    <%= form.label "カテゴリー"%>
+    <%= form.text_field :name, class: "form-control"%>
+    <%= form.select :pre_label, Label.names.to_a, {} %>
+  </div>
+  <% end %>
+
   <div class="ations text-center">
     <%= form.submit %>
   </div>

@@ -4,7 +4,8 @@ class TasksController < ApplicationController
   before_action :correct_user_check, except: [:index, :new, :create]
   def index
     if params[:task]
-      @tasks = Task.where(user_id: current_user.id)
+      @tasks = Task.includes(:stuck_labels)
+                  .where(user_id: current_user.id)
                   .page(params[:page]).per(20)
                   .title_search(params[:task])
                   .status_choise(params[:task])
@@ -13,7 +14,8 @@ class TasksController < ApplicationController
                   .deadline_order(params[:task])
       @form_default = params[:task]
     else
-      @tasks = Task.where(user_id: current_user.id)
+      @tasks = Task.includes(:stuck_labels)
+                    .where(user_id: current_user.id)
                     .page(params[:page]).per(20)
                     .order(created_at: :desc)
     end
@@ -74,7 +76,8 @@ class TasksController < ApplicationController
                   :content,
                   :deadline,
                   :status,
-                  :priority)
+                  :priority,
+                  labels_attributes: [:name])
   end
 
   def format_fix(task_params)

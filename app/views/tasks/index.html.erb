@@ -70,6 +70,14 @@
         <% else %>
           <span class="badge badge-primary"><%= task.priority %></span>
         <% end %>
+
+        <% if task.stuck_labels.present? %>
+        <hr>
+        <% end %>
+        <% task.stuck_labels.each do |label| %>
+          <span class="badge badge-info"><%= label.name %></span>
+        <% end %>
+
       </div>
       <div class="card-body">
 

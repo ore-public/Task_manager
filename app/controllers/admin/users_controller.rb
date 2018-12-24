@@ -26,24 +26,23 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-      ActiveRecord::Base.transaction do
-        @user.update!(user_params)
-        User.find_by!(admin: true)
-      end
-      redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を編集しました"
-    rescue
-      redirect_to admin_users_path, notice: "編集を実行すると管理者が不在になります"
+    ActiveRecord::Base.transaction do
+      @user.update!(user_params)
+      User.find_by!(admin: true)
+    end
+    redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を編集しました"
+  rescue
+    redirect_to admin_users_path, notice: "編集を実行すると管理者が不在になります"
   end
 
   def destroy
-      ActiveRecord::Base.transaction do
-        @user.destroy!
-        User.find_by!(admin: true)
-      end
-      redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を削除しました"
-    rescue
-      redirect_to admin_users_path, notice: "削除を実行すると管理者が不在になります"
+    ActiveRecord::Base.transaction do
+      @user.destroy!
+      User.find_by!(admin: true)
     end
+    redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を削除しました"
+  rescue
+    redirect_to admin_users_path, notice: "削除を実行すると管理者が不在になります"
   end
 
   private
@@ -60,5 +59,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def admin_check
-    raise "Forbidden" unless logged_in? && admin?
+    raise Forbidden unless logged_in? && admin?
   end
+end

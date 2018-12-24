@@ -9,6 +9,10 @@ class Task < ApplicationRecord
   # validate :cheat_on_priority
 
   belongs_to :user
+  has_many :task_label_relations, dependent: :destroy
+  has_many :stuck_labels, through: :task_label_relations, source: :label
+  accepts_nested_attributes_for :stuck_labels, allow_destroy: true
+
 
   enum priority: {low: 0, middle: 1, high: 2}
 
