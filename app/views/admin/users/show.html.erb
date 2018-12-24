@@ -1,0 +1,15 @@
+
+<h3>ID:<%= @user.id %></h3>
+<h3>Name:<%= @user.name %></h3>
+
+<h3>Email:<%= @user.email %></h3>
+<br>
+<%= link_to "ユーザー管理画面へ", admin_users_path %>
+<br>
+<br>
+<h3>タスク一覧</h3>
+<% @user.tasks.each do |task| %>
+  <p>
+    <%= link_to task.title, task_path(task) %>
+  </p>
+<% end %>
