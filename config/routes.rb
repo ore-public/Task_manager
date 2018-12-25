@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
   root to: "tasks#index"
   resources :tasks, :except => [:index]
   namespace :admin do
@@ -7,4 +6,5 @@ Rails.application.routes.draw do
   end
   resources :users, only: [:new, :create, :show]
   resources :sessions, only: [:new, :create, :destroy]
+  resources :task_label_relations, only: [:destroy]
 end

@@ -36,6 +36,11 @@
     <%= form.label :label %>
     <%= form.text_area :label, class: "form-control" %>
   </div>
+  現在のラベル：
+  <% task.stuck_labels.each do |lab| %>
+
+  <%= link_to lab.name, task_label_relation_path(label_id: lab.id), method: :delete, data: { confirm: "削除してもよろしいですか？\r(編集中のタスクがある場合先に保存してください)" }%> /
+  <% end %>
 
 
   <div class="ations text-center">

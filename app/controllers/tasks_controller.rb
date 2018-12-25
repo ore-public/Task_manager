@@ -29,14 +29,13 @@ class TasksController < ApplicationController
       @task = Task.new(task_params)
     else
       @task = Task.new
-      @labels = Label.all
     end
   end
 
   def create
     @task = Task.new(format_fix(task_params))
     if @task.save
-      label_maker(@label)
+      label_maker(@label) unless @label.nil?
       redirect_to @task, notice: 'タスクの保存に成功しました'
     else
       render :new
@@ -48,6 +47,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(format_fix(task_params))
+      label_maker(@label) unless @label.nil?
       redirect_to @task, notice: 'タスクの編集に成功しました'
     else
       render :edit
@@ -96,7 +96,7 @@ class TasksController < ApplicationController
     scaned_labels.each do |la|
       if Label.exists?(name: la)
         a = Label.find_by(name: la)
-        TaskLabelRelation.create(task_id: @task.id, label_id: a.id)
+        TaskLabelRelation.create(task_id: @task.id, label_id: a.id) unless @task.stuck_labels.exists?(id: a.id)
       else
         lab = Label.new(name: la)
         lab.save
@@ -104,5 +104,4 @@ class TasksController < ApplicationController
       end
     end
   end
-
 end
