@@ -29,12 +29,14 @@ class TasksController < ApplicationController
       @task = Task.new(task_params)
     else
       @task = Task.new
+      @labels = Label.all
     end
   end
 
   def create
     @task = Task.new(format_fix(task_params))
     if @task.save
+      label_maker(@label)
       redirect_to @task, notice: 'タスクの保存に成功しました'
     else
       render :new
@@ -77,12 +79,30 @@ class TasksController < ApplicationController
                   :deadline,
                   :status,
                   :priority,
-                  labels_attributes: [:name])
+                  :label
+                  )
   end
 
   def format_fix(task_params)
+    @label = task_params[:label] unless task_params[:label] == ""
+    task_params.delete(:label)
     task_params[:priority] = task_params[:priority].to_i
     task_params[:user_id] = current_user.id
     return task_params
   end
+
+  def label_maker(label_text)
+    scaned_labels = label_text.scan(/[^ 　\r\n]+/)
+    scaned_labels.each do |la|
+      if Label.exists?(name: la)
+        a = Label.find_by(name: la)
+        TaskLabelRelation.create(task_id: @task.id, label_id: a.id)
+      else
+        lab = Label.new(name: la)
+        lab.save
+        TaskLabelRelation.create(task_id: @task.id, label_id: lab.id)
+      end
+    end
+  end
+
 end

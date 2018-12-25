@@ -11,7 +11,7 @@ class Task < ApplicationRecord
   belongs_to :user
   has_many :task_label_relations, dependent: :destroy
   has_many :stuck_labels, through: :task_label_relations, source: :label
-  accepts_nested_attributes_for :stuck_labels, allow_destroy: true
+  accepts_nested_attributes_for :task_label_relations, allow_destroy: true
 
 
   enum priority: {low: 0, middle: 1, high: 2}
@@ -30,6 +30,14 @@ class Task < ApplicationRecord
   scope :priority_choise, -> (tasks) { where(priority: "#{tasks[:priority]}") if tasks[:priority].present?}
   scope :priority_order, -> (tasks) { order(priority: :desc) if tasks[:priority_s] == "優先度順" }
 
+
+  def label_maker(label_text, task_int)
+    scaned_labels = label_text.scan(/.+/)
+    scaned_labels.each do |la|
+      Label.create(name: la, task_id: task_int)
+    end
+  end
+
   private
   def defining_deadline_is_over
     if self.deadline < DateTime.now
@@ -42,6 +50,7 @@ class Task < ApplicationRecord
       errors.add(:status, "の値が不正です")
     end
   end
+
 
   #datebase limitで対応可能！
   # def cheat_on_priority
