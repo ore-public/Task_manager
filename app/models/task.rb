@@ -29,7 +29,7 @@ class Task < ApplicationRecord
   scope :status_choise, -> (tasks) { where(status: "#{tasks[:status_s]}") if tasks[:status_s].present? }
   scope :priority_choise, -> (tasks) { where(priority: "#{tasks[:priority]}") if tasks[:priority].present?}
   scope :priority_order, -> (tasks) { order(priority: :desc) if tasks[:priority_s] == "優先度順" }
-
+  scope :label_search, -> (tasks) { where(stuck_labels: "#{tasks[:label_s]}") if tasks[:label_s].present?}
 
   def label_maker(label_text, task_int)
     scaned_labels = label_text.scan(/.+/)

@@ -12,6 +12,7 @@ class TasksController < ApplicationController
                   .priority_choise(params[:task])
                   .priority_order(params[:task])
                   .deadline_order(params[:task])
+                  .label_search(params[:task])
       @form_default = params[:task]
     else
       @tasks = Task.includes(:stuck_labels)
