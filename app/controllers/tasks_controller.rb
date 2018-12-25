@@ -55,8 +55,14 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task.destroy
-    redirect_to "/", notice: 'タスクの削除に成功しました'
+    if params[:label_id]
+      relation = TaskLabelRelation.find_by(task_id: params[:id],label_id: params[:label_id])
+      relation.destroy
+      redirect_to edit_task_path(id: params[:id])
+    else
+      @task.destroy
+      redirect_to "/", notice: 'タスクの削除に成功しました'
+    end
   end
 
   private
