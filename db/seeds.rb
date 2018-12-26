@@ -51,6 +51,6 @@ Label.create(name: "JavaScript")
 Label.create(name: "Python")
 Label.create(name: "PHP")
 
-
-TaskLabelRelation.create(task_id: 1, label_id: 1)
-TaskLabelRelation.create(task_id: 2, label_id: 2)
+task = Task.find_by(title: "タイトル１")
+label = Label.find_by(name: "Life")
+TaskLabelRelation.create(task_id: task.id, label_id: label.id)
