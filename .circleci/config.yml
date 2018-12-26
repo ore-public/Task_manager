@@ -20,7 +20,7 @@ jobs:
     working_directory: /go/src/github.com/miball0202/Task_manager
     steps:
       - checkout
-      - run: cd /home/circleci/Task_Manager
+      - run: ls
       - run: bin/rspec spec/features/task.spec.rb
       - run: bin/rspec spec/features/label.spec.rb
       - run: bin/rspec spec/features/user.spec.rb
