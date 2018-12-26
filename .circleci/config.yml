@@ -19,6 +19,9 @@ jobs:
     ####   /go/src/bitbucket.org/circleci/go-tool
     working_directory: /go/src/github.com/miball0202/Task_manager
     steps:
-      - run:
-          command: bin/rspec spec/features/task.spec.rb
       - checkout
+      - run: cd /home/circleci/Task_Manager
+      - run: bin/rspec spec/features/task.spec.rb
+      - run: bin/rspec spec/features/label.spec.rb
+      - run: bin/rspec spec/features/user.spec.rb
+      - run: bin/rspec spec/features/adminuser.spec.rb
