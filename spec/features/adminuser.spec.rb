@@ -33,7 +33,7 @@ RSpec.feature "ユーザ管理画面機能", type: :feature do
     fill_in "Password", with: "cccccccccc"
     click_on "Add new user"
 
-    expect(page).to have_content "ユーザーjosseを追加しました"
+    expect(page).to have_content "josseを追加しました"
   end
 
   scenario "管理画面からユーザーの詳細画面を確認する" do

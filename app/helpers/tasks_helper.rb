@@ -9,6 +9,8 @@ module TasksHelper
           label << l.name
         end
         @check = label.uniq
+      else
+        @check = [""]
       end
     end
     return @check
