@@ -17,11 +17,16 @@ jobs:
     #### expecting it in the form of
     ####   /go/src/github.com/circleci/go-tool
     ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/miball0202/Task_manager
+    working_directory: ~/Task_Manager
     steps:
       - checkout
 
-      # specify any bash command here prefixed with `run: `
+
+
+      - run: bundle install
+      - run: bundle exec spring binstub rspec
+      - run: rails generate rspec:install
+      - run: echo --format documentation >> .rspec
       - run: bin/rspec spec/features/task.spec.rb
       - run: bin/rspec spec/features/label.spec.rb
       - run: bin/rspec spec/features/user.spec.rb
