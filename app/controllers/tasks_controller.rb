@@ -4,16 +4,19 @@ class TasksController < ApplicationController
   before_action :correct_user_check, except: [:index, :new, :create]
   def index
     if params[:task]
-      @tasks = Task.where(user_id: current_user.id)
+      @tasks = Task.includes(:stuck_labels)
+                  .where(user_id: current_user.id)
                   .page(params[:page]).per(20)
                   .title_search(params[:task])
                   .status_choise(params[:task])
                   .priority_choise(params[:task])
                   .priority_order(params[:task])
                   .deadline_order(params[:task])
+                  .label_search(params[:task])
       @form_default = params[:task]
     else
-      @tasks = Task.where(user_id: current_user.id)
+      @tasks = Task.includes(:stuck_labels)
+                    .where(user_id: current_user.id)
                     .page(params[:page]).per(20)
                     .order(created_at: :desc)
     end
@@ -33,6 +36,7 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(format_fix(task_params))
     if @task.save
+      label_maker(@label) unless @label.nil?
       redirect_to @task, notice: 'タスクの保存に成功しました'
     else
       render :new
@@ -44,6 +48,7 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(format_fix(task_params))
+      label_maker(@label) unless @label.nil?
       redirect_to @task, notice: 'タスクの編集に成功しました'
     else
       render :edit
@@ -51,8 +56,14 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task.destroy
-    redirect_to "/", notice: 'タスクの削除に成功しました'
+    if params[:label_id]
+      relation = TaskLabelRelation.find_by(task_id: params[:id],label_id: params[:label_id])
+      relation.destroy
+      redirect_to edit_task_path(id: params[:id])
+    else
+      @task.destroy
+      redirect_to "/", notice: 'タスクの削除に成功しました'
+    end
   end
 
   private
@@ -74,12 +85,30 @@ class TasksController < ApplicationController
                   :content,
                   :deadline,
                   :status,
-                  :priority)
+                  :priority,
+                  :label
+                  )
   end
 
   def format_fix(task_params)
+    @label = task_params[:label] unless task_params[:label] == ""
+    task_params.delete(:label)
     task_params[:priority] = task_params[:priority].to_i
     task_params[:user_id] = current_user.id
     return task_params
+  end
+
+  def label_maker(label_text)
+    scaned_labels = label_text.scan(/[^ 　\r\n]+/)
+    scaned_labels.each do |la|
+      if Label.exists?(name: la)
+        a = Label.find_by(name: la)
+        TaskLabelRelation.create(task_id: @task.id, label_id: a.id) unless @task.stuck_labels.exists?(id: a.id)
+      else
+        lab = Label.new(name: la)
+        lab.save
+        TaskLabelRelation.create(task_id: @task.id, label_id: lab.id)
+      end
+    end
   end
 end

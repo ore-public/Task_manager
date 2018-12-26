@@ -32,6 +32,16 @@
     <%= form.select :priority, Task.priorities.to_a, {}%>
   </div>
 
+  <div class="field">
+    <%= form.label :label %>
+    <%= form.text_area :label, class: "form-control", placeholder: "ラベルは１２文字を越えると保存されません\r複数同時に登録したい場合は、空白または改行を挟んでください" %>
+  </div>
+  現在のラベル：
+  <% task.stuck_labels.each do |lab| %>
+    <%= link_to lab.name, task_path(label_id: lab.id), method: :delete, data: { confirm: "#{lab.name}を削除してもよろしいですか？\r(編集中のタスクがある場合先に保存してください)" }%> /
+  <% end %>
+
+
   <div class="ations text-center">
     <%= form.submit %>
   </div>

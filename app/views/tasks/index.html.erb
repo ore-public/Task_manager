@@ -1,7 +1,7 @@
 <br>
 <div class="alert alert-secondary text-center">
   <%= form_with(model: Task.new, local: true, method: :get, url: root_path) do |f| %>
-  <% @form_default = {search: "", status_s: "", priority: "", priority_s: "", deadline_c: ""} if @form_default.nil? %>
+  <% @form_default = {search: "", status_s: "", priority: "", priority_s: "", deadline_c: "", label_s: ""} if @form_default.nil? %>
 
   <div class="table-responsive">
     <table>
@@ -11,6 +11,7 @@
         <th>優先度ソート</th>
         <th>優先度</th>
         <th>期日ソート</th>
+        <th>ラベル</th>
         <th></th>
         <th> 　　　　　</th>
       </tr>
@@ -30,6 +31,9 @@
         </td>
         <td>
           <%= f.select :deadline_c, options_for_select(["期日昇順","期日降順"], selected: "#{@form_default[:deadline_c]}"), include_blank: true %>
+        </td>
+        <td>
+          <%= f.select :label_s, options_for_select(label_catcher, selected: "#{@form_default[:label_s]}"), include_blank: true %>
         </td>
         <td>
           <%= f.submit 'Search', :name => nil %>
@@ -70,6 +74,14 @@
         <% else %>
           <span class="badge badge-primary"><%= task.priority %></span>
         <% end %>
+
+        <% if task.stuck_labels.present? %>
+        <hr>
+        <% end %>
+        <% task.stuck_labels.each do |label| %>
+          <span class="badge badge-info"><%= label.name %></span>
+        <% end %>
+
       </div>
       <div class="card-body">
 

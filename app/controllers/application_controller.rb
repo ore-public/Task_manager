@@ -3,12 +3,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include SessionsHelper
 
+  class Forbidden < ActionController::ActionControllerError; end
+  rescue_from Forbidden, with: :rescue403
+
+  def rescue403(e)
+    @ex = e
+    render "errors/forbidden", status: 403, layout: nil
+  end
 end
-  #adminuser 以外のアクセスで専用例外ページを作成中
-  # class Forbidden < ActionController::ActionControllerError; end
-  # rescue_from Forbidden, with: :rescue403
-  #
-  # def rescue403(e)
-  #   @ex = e
-  #   render "errors/forbidden", status: 403
-  # end

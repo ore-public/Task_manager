@@ -39,3 +39,18 @@ User.create(name: "firstman",
 User.create(name: "secondman",
             email: "bbb@dic.jp",
             password: "123456789")
+
+Label.create(name: "Life")
+Label.create(name: "Work")
+Label.create(name: "Programing")
+Label.create(name: "Ruby")
+Label.create(name: "Rails")
+Label.create(name: "HTML")
+Label.create(name: "CSS")
+Label.create(name: "JavaScript")
+Label.create(name: "Python")
+Label.create(name: "PHP")
+
+
+TaskLabelRelation.create(task_id: 1, label_id: 1)
+TaskLabelRelation.create(task_id: 2, label_id: 2)

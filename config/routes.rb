@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
   root to: "tasks#index"
   resources :tasks, :except => [:index]
   namespace :admin do
