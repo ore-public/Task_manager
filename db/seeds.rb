@@ -8,7 +8,7 @@
 # coding: utf-8
 
 50.times do |no|
-  d = rand(1..29)
+  d = rand(1..28)
   m = rand(1..12)
   priority = no % 3
   num = no % 4
@@ -53,4 +53,4 @@ Label.create(name: "PHP")
 
 task = Task.find_by(title: "タイトル１")
 label = Label.find_by(name: "Life")
-TaskLabelRelation.create(task_id: task.id, label_id: label.id)
+TaskLabelRelation.create(task_id: 1, label_id: 1)

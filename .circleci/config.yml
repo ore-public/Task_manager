@@ -20,9 +20,6 @@ jobs:
     working_directory: ~/Task_Manager
     steps:
       - checkout
-
-
-
       - run: bundle install
       - run: bundle exec spring binstub rspec
       - run: rails generate rspec:install
