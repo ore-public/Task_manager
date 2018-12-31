@@ -37,6 +37,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'capybara', '>= 2.15'
   gem 'database_cleaner'
+  gem "rspec_junit_formatter"
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

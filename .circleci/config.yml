@@ -78,12 +78,15 @@ jobs: # a collection of steps
           command: bundle install
 
 
-      - type: shell
-          command:  bundle exec rspec --profile 10 \
-                        --format RspecJunitFormatter \
-                        --out test_results/rspec.xml \
-                        --format progress \
-                        $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            bundle exec rspec --format progress \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress \
+                            "${TEST_FILES}"
 
       # Save test results for timing analysis
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
