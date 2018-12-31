@@ -1,36 +1,37 @@
+# frozen_string_literal: true
+
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: %i[show edit update destroy]
   before_action :logged_in_check
-  before_action :correct_user_check, except: [:index, :new, :create]
+  before_action :correct_user_check, except: %i[index new create]
   def index
     if params[:task]
       @tasks = Task.includes(:stuck_labels)
-                  .where(user_id: current_user.id)
-                  .page(params[:page]).per(20)
-                  .title_search(params[:task])
-                  .status_choise(params[:task])
-                  .priority_choise(params[:task])
-                  .priority_order(params[:task])
-                  .deadline_order(params[:task])
-                  .label_search(params[:task])
+                   .where(user_id: current_user.id)
+                   .page(params[:page]).per(20)
+                   .title_search(params[:task])
+                   .status_choise(params[:task])
+                   .priority_choise(params[:task])
+                   .priority_order(params[:task])
+                   .deadline_order(params[:task])
+                   .label_search(params[:task])
       @form_default = params[:task]
     else
       @tasks = Task.includes(:stuck_labels)
-                    .where(user_id: current_user.id)
-                    .page(params[:page]).per(20)
-                    .order(created_at: :desc)
+                   .where(user_id: current_user.id)
+                   .page(params[:page]).per(20)
+                   .order(created_at: :desc)
     end
   end
 
-  def show
-  end
+  def show; end
 
   def new
-    if params[:back]
-      @task = Task.new(task_params)
-    else
-      @task = Task.new
-    end
+    @task = if params[:back]
+              Task.new(task_params)
+            else
+              Task.new
+            end
   end
 
   def create
@@ -43,8 +44,7 @@ class TasksController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @task.update(format_fix(task_params))
@@ -57,16 +57,17 @@ class TasksController < ApplicationController
 
   def destroy
     if params[:label_id]
-      relation = TaskLabelRelation.find_by(task_id: params[:id],label_id: params[:label_id])
+      relation = TaskLabelRelation.find_by(task_id: params[:id], label_id: params[:label_id])
       relation.destroy
       redirect_to edit_task_path(id: params[:id])
     else
       @task.destroy
-      redirect_to "/", notice: 'タスクの削除に成功しました'
+      redirect_to '/', notice: 'タスクの削除に成功しました'
     end
   end
 
   private
+
   def set_task
     @task = Task.find(params[:id])
   end
@@ -86,16 +87,15 @@ class TasksController < ApplicationController
                   :deadline,
                   :status,
                   :priority,
-                  :label
-                  )
+                  :label)
   end
 
   def format_fix(task_params)
-    @label = task_params[:label] unless task_params[:label] == ""
+    @label = task_params[:label] unless task_params[:label] == ''
     task_params.delete(:label)
     task_params[:priority] = task_params[:priority].to_i
     task_params[:user_id] = current_user.id
-    return task_params
+    task_params
   end
 
   def label_maker(label_text)

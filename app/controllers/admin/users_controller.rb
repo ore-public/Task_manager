@@ -1,13 +1,14 @@
+# frozen_string_literal: true
+
 class Admin::UsersController < ApplicationController
   before_action :admin_check
-  before_action :set_force_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_force_user, only: %i[show edit update destroy]
 
   def index
-    @users = User.all.includes(:tasks).order(id: "asc")
+    @users = User.all.includes(:tasks).order(id: 'asc')
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @user = User.new
@@ -22,8 +23,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     ActiveRecord::Base.transaction do
@@ -31,8 +31,8 @@ class Admin::UsersController < ApplicationController
       User.find_by!(admin: true)
     end
     redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を編集しました"
-  rescue
-    redirect_to admin_users_path, notice: "編集を実行すると管理者が不在になります"
+  rescue StandardError
+    redirect_to admin_users_path, notice: '編集を実行すると管理者が不在になります'
   end
 
   def destroy
@@ -41,11 +41,12 @@ class Admin::UsersController < ApplicationController
       User.find_by!(admin: true)
     end
     redirect_to admin_users_path, notice: "管理者権限により#{@user.id}:#{@user.name}を削除しました"
-  rescue
-    redirect_to admin_users_path, notice: "削除を実行すると管理者が不在になります"
+  rescue StandardError
+    redirect_to admin_users_path, notice: '削除を実行すると管理者が不在になります'
   end
 
   private
+
   def set_force_user
     @user = User.find(params[:id])
   end

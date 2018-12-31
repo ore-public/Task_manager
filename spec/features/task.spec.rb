@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.feature "タスク管理機能", type: :feature do
-
+RSpec.feature 'タスク管理機能', type: :feature do
   background do
     user = FactoryBot.create(:user)
     user_2 = FactoryBot.create(:not_john)
@@ -13,13 +14,13 @@ RSpec.feature "タスク管理機能", type: :feature do
     FactoryBot.create(:not_johns_task, user_id: user_2.id)
   end
 
-  scenario "タスク一覧のテスト" do
+  scenario 'タスク一覧のテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
-    visit "/"
+    visit '/'
     expect(page).to have_content 'コンテント１'
     expect(page).to have_content 'コンテント２'
     expect(page).to have_content 'コンテント３'
@@ -27,41 +28,41 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(page).to have_content 'コンテント５'
   end
 
-  scenario "タスク作成のテスト" do
+  scenario 'タスク作成のテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
     visit new_task_path
-    fill_in "タスク名", with: "maybete"
-    fill_in "タスク詳細", with: "maybetest"
-    select "2020", from: "task_deadline_1i"
-    click_on "登録する"
+    fill_in 'タスク名', with: 'maybete'
+    fill_in 'タスク詳細', with: 'maybetest'
+    select '2020', from: 'task_deadline_1i'
+    click_on '登録する'
 
     expect(page).to have_content 'maybete'
     expect(page).to have_content '未着手'
     expect(page).to have_content 'low'
   end
 
-  scenario "タスク詳細のテスト" do
+  scenario 'タスク詳細のテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
     visit root_path
     visit @task
     expect(page).to have_content 'コンテント１'
   end
 
-  scenario "タスクが作成日時の降順に並んでいるかのテスト" do
+  scenario 'タスクが作成日時の降順に並んでいるかのテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
-    visit "/"
+    visit '/'
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント５'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント４'
     expect(all(:css, '.task_content')[2]).to have_content 'コンテント３'
@@ -69,15 +70,15 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(all(:css, '.task_content')[4]).to have_content 'コンテント１'
   end
 
-  scenario "終了期日降順ボタンが正常機能しているかのテスト" do
+  scenario '終了期日降順ボタンが正常機能しているかのテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
     visit root_path
     find("option[value='期日降順']").select_option
-    click_on "Search"
+    click_on 'Search'
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント２'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
     expect(all(:css, '.task_content')[2]).to have_content 'コンテント３'
@@ -85,56 +86,56 @@ RSpec.feature "タスク管理機能", type: :feature do
     expect(all(:css, '.task_content')[4]).to have_content 'コンテント５'
   end
 
-  scenario "タイトル検索が正常に機能しているかテスト" do
+  scenario 'タイトル検索が正常に機能しているかテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
     visit root_path
-    fill_in "task[search]", with: "タイトル２"
-    click_on "Search"
+    fill_in 'task[search]', with: 'タイトル２'
+    click_on 'Search'
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント２'
   end
 
-  scenario "ステータス絞り込みが正常に機能しているかテスト" do
+  scenario 'ステータス絞り込みが正常に機能しているかテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
     visit root_path
     find("option[value='着手中']").select_option
-    click_on "Search"
+    click_on 'Search'
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント５'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
   end
 
-  scenario "上記ステータス絞り込みテスト成功により、他ユーザーのタスクが見られないことを実証" do
+  scenario '上記ステータス絞り込みテスト成功により、他ユーザーのタスクが見られないことを実証' do
   end
 
-  scenario "優先度絞り込みが正常に機能しているかテスト" do
+  scenario '優先度絞り込みが正常に機能しているかテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
     visit root_path
-    select 'high', from: "task[priority]"
-    click_on "Search"
+    select 'high', from: 'task[priority]'
+    click_on 'Search'
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント３'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
   end
 
-  scenario "優先度順ソートが正常に機能しているかテスト" do
+  scenario '優先度順ソートが正常に機能しているかテスト' do
     visit root_path
-    fill_in "Email", with: "john@dic.jp"
-    fill_in "Password", with: "aaaaaaaaaa"
-    click_button "Log in"
+    fill_in 'Email', with: 'john@dic.jp'
+    fill_in 'Password', with: 'aaaaaaaaaa'
+    click_button 'Log in'
 
     visit root_path
-    select '優先度順', from: "task[priority_s]"
-    click_on "Search"
+    select '優先度順', from: 'task[priority_s]'
+    click_on 'Search'
     expect(all(:css, '.task_content')[0]).to have_content 'コンテント３'
     expect(all(:css, '.task_content')[1]).to have_content 'コンテント１'
     expect(all(:css, '.task_content')[2]).to have_content 'コンテント４'
