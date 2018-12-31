@@ -70,17 +70,16 @@ jobs: # a collection of steps
           command: bin/rails db:schema:load --trace
 
       - run:
-          name: bundle install
-          command: bundle install
+          name: gem install
+          command: gem install rubygems-bundler
+
+      - run:
+          name: gem install
+          command: gem regenerate_binstubs
 
       - run:
           name: bundle install
           command: bundle install
-
-
-      - run:
-          name: generate rspec
-          command: bundle exec rails generate rspec:install
 
       - run:
           name: run tests
