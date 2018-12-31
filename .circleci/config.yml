@@ -49,7 +49,7 @@ jobs: # a collection of steps
 
       - run:
           name: Yarn Install
-          command: yarn install --cache-folder ~/.cache/yarn
+          command: yarn install 
 
       # Store yarn / webpacker cache
       - save_cache:
