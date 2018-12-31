@@ -8,7 +8,7 @@
 # coding: utf-8
 
 50.times do |no|
-  d = rand(1..29)
+  d = rand(1..28)
   m = rand(1..12)
   priority = no % 3
   num = no % 4
@@ -53,4 +53,3 @@ Label.create(name: "PHP")
 
 
 TaskLabelRelation.create(task_id: 1, label_id: 1)
-TaskLabelRelation.create(task_id: 2, label_id: 2)
