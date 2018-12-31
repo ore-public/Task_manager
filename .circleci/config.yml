@@ -74,8 +74,13 @@ jobs: # a collection of steps
           command: bundle install
 
       - run:
+          name: install rubocop
+          command: gem i rubocop
+
+      - run:
           name: run rubocop
           command: rubocop
+
 
       - run:
           name: run tests
