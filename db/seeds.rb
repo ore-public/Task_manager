@@ -24,7 +24,7 @@
 
   Task.create(title: "タイトル #{no}",
               content: "内容#{no}",
-              deadline: DateTime.new(2019, m, d, 00, 00, 00),
+              deadline: DateTime.new(2020, m, d, 00, 00, 00),
               status: state,
               priority: priority,
               user_id: 1
