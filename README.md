@@ -53,7 +53,7 @@ Herokuにログインし、新しいアプリケーションを作成します�
 >$ heroku create
 
 エラーを回避するためにherokuのbuildpacksの順番を入れ替えます。
->$ heroku buildpacks:set heroku/ruby
+>$ heroku buildpacks:set heroku/ruby  
 >$ heroku buildpacks:add --index 1 heroku/nodejs
 
 Herokuにデプロイします。
@@ -104,3 +104,5 @@ Herokuにデプロイします。
 |:----------|:-------|
 | id        | integer|
 | name      | string |
+
+`test`
