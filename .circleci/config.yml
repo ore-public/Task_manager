@@ -81,7 +81,6 @@ jobs: # a collection of steps
           name: run rubocop
           command: rubocop
 
-
       - run:
           name: run tests
           command: |
