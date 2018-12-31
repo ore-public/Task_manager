@@ -70,6 +70,10 @@ jobs: # a collection of steps
           command: bin/rails db:schema:load --trace
 
       - run:
+          name: bundle install
+          command: bundle install
+
+      - run:
           name: Run rspec user
           command: bin/rspec spec/features/user.spec.rb
 
