@@ -70,14 +70,6 @@ jobs: # a collection of steps
           command: bin/rails db:schema:load --trace
 
       - run:
-          name: gem install
-          command: gem install rubygems-bundler
-
-      - run:
-          name: gem install
-          command: gem regenerate_binstubs
-
-      - run:
           name: bundle install
           command: bundle install
 
@@ -89,6 +81,7 @@ jobs: # a collection of steps
           name: run tests
           command: |
             mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
             bundle exec rspec --format progress \
                             --format RspecJunitFormatter \
                             --out /tmp/test-results/rspec.xml \
