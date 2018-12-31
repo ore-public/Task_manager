@@ -46,7 +46,7 @@
   </div>
 
   <% end %>
-  
+
 </div>
 <br>
 <br>
@@ -57,6 +57,9 @@
   <div class="col-md-6 col-sm-12">
     <div class="card">
       <div class="card-header">
+        <%  if task.deadline < DateTime.now + 7 && task.deadline > DateTime.now %>
+          <span class="badge badge-danger">期限間近</span>
+        <% end %>
         <h5><%= task.title %></h5>
         <h6>期限：<%= task.deadline.strftime('%Y/%m/%d %H:%M') %></h6>
 
