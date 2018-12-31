@@ -74,20 +74,15 @@ jobs: # a collection of steps
           command: bundle install
 
       - run:
-          name: Run rspec user
-          command: bin/rspec spec/features/user.spec.rb
-
-      - run:
-          name: Run rspec task
-          command: bin/rspec spec/features/task.spec.rb
-
-      - run:
-          name: Run rspec label
-          command: bin/rspec spec/features/user.label.rb
-
-      - run:
-          name: Run rspec adminuser
-          command: bin/rspec spec/features/adminuser.spec.rb
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            bundle exec rspec --format progress \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress \
+                            "${TEST_FILES}"
 
       # Save test results for timing analysis
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
