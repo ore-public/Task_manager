@@ -70,13 +70,20 @@ jobs: # a collection of steps
           command: bin/rails db:schema:load --trace
 
       - run:
-          name: Run rspec in parallel
-          command: |
-            bundle exec rspec --profile 10 \
-                              --format RspecJunitFormatter \
-                              --out test_results/rspec.xml \
-                              --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+          name: Run rspec user
+          command: bin/rspec spec/features/user.spec.rb
+
+      - run:
+          name: Run rspec task
+          command: bin/rspec spec/features/task.spec.rb
+
+      - run:
+          name: Run rspec label
+          command: bin/rspec spec/features/user.label.rb
+
+      - run:
+          name: Run rspec adminuser
+          command: bin/rspec spec/features/adminuser.spec.rb
 
       # Save test results for timing analysis
       - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
