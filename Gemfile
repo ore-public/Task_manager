@@ -37,7 +37,6 @@ end
 group :test do
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
-  gem 'database_cleaner'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
