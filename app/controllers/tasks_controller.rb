@@ -16,11 +16,18 @@ class TasksController < ApplicationController
                    .deadline_order(params[:task])
                    .label_search(params[:task])
       @form_default = params[:task]
+      @deadline_close = @tasks.where(deadline: DateTime.now..DateTime.now + 3)
+                              .where.not(status: '完了').count
+      @deadline_over = @tasks.where("deadline < ?", DateTime.now ).where.not(status: '完了').count
+
     else
       @tasks = Task.includes(:stuck_labels)
                    .where(user_id: current_user.id)
                    .page(params[:page]).per(20)
                    .order(created_at: :desc)
+      @deadline_close = @tasks.where(deadline: DateTime.now..DateTime.now + 3)
+                              .where.not(status: '完了').count
+      @deadline_over = @tasks.where("deadline < ?", DateTime.now ).where.not(status: '完了').count
     end
   end
 
