@@ -33,7 +33,7 @@ RSpec.feature 'タスク管理機能', type: :feature do
     fill_in 'タスク名', with: 'maybete'
     fill_in 'タスク詳細', with: 'maybetest'
     select '2020', from: 'task_deadline_1i'
-    fill_in 'Label', with: 'ラベルだよ'
+    fill_in 'ラベル', with: 'ラベルだよ'
     click_on '登録する'
 
     expect(page).to have_content 'maybete'
@@ -46,7 +46,7 @@ RSpec.feature 'タスク管理機能', type: :feature do
     visit root_path
     task = Task.find_by(title: 'タイトル１')
     click_link '編集', href: edit_task_path(task)
-    fill_in 'Label', with: 'ラベルじゃん'
+    fill_in 'ラベル', with: 'ラベルじゃん'
     click_on '更新する'
 
     expect(page).to have_content 'ラベルじゃん'
@@ -64,7 +64,7 @@ RSpec.feature 'タスク管理機能', type: :feature do
     visit root_path
     task = Task.find_by(title: 'タイトル１')
     click_link '編集', href: edit_task_path(task)
-    fill_in 'Label', with: 'ラベルじゃん'
+    fill_in 'ラベル', with: 'ラベルじゃん'
     click_on '更新する'
 
     visit root_path
