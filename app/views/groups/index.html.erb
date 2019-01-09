@@ -1,0 +1,14 @@
+<br>
+<div class="row">
+  <% @groups.each do |group| %>
+    <div class="col-md-6 col-sm-12">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title"><%= group.title %></h5>
+          <p class="card-text"><%= group.info %></p>
+          <%= link_to "GO", group, class: "btn btn-primary"%>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
