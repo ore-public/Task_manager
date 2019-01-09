@@ -11,6 +11,7 @@ class Task < ApplicationRecord
   # validate :cheat_on_priority
 
   belongs_to :user
+  belongs_to :group, optional: true
   has_many :task_label_relations, dependent: :destroy
   has_many :stuck_labels, through: :task_label_relations, source: :label
   accepts_nested_attributes_for :task_label_relations, allow_destroy: true

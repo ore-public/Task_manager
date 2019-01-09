@@ -33,6 +33,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :group_id %>
+    <%= form.select :group_id, @groups, class: "form-control", include_blank: true %>
+  </div>
+
+  <div class="field">
     <%= form.label :label %>
     <%= form.text_area :label, class: "form-control", placeholder: "ラベルは１２文字を越えると保存されません\r複数同時に登録したい場合は、空白または改行を挟んでください" %>
   </div>

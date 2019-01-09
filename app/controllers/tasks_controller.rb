@@ -39,6 +39,7 @@ class TasksController < ApplicationController
             else
               Task.new
             end
+    @groups = group_select_form
   end
 
   def create
@@ -94,6 +95,7 @@ class TasksController < ApplicationController
                   :deadline,
                   :status,
                   :priority,
+                  :group_id,
                   :label)
   end
 
@@ -117,5 +119,15 @@ class TasksController < ApplicationController
         TaskLabelRelation.create(task_id: @task.id, label_id: lab.id)
       end
     end
+  end
+
+  def group_select_form
+    groups = {}
+    joinnings = GroupUserRelation.where(user_id: current_user.id)
+    joinnings.each do |join|
+      group = Group.find_by(id: join.group_id)
+      groups["#{group.title}"] = group.id
+    end
+    groups
   end
 end
