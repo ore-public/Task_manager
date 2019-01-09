@@ -9,8 +9,12 @@ class GroupsController < ApplicationController
   end
 
   def show
+    users = []
     joined = GroupUserRelation.where(group_id: params[:id])
-    @group_tasks = Task.where(user_id: joined.ids)
+    joined.each do |join|
+      users << join.user_id
+    end
+    @group_tasks = Task.where(user_id: users)
                       .page(params[:page]).per(20)
   end
 
