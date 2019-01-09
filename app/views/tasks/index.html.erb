@@ -109,8 +109,8 @@
           <%= simple_format(task.content) %><br>
         </div>
         <%= link_to "詳細", task %>
-        <%= link_to "編集", edit_task_path(task) %>
-        <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } %>
+        <%= link_to "編集", edit_task_path(task) if task.user_id == current_user.id %>
+        <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } if task.user_id == current_user.id %>
       </div>
     </div><br>
   </div>
