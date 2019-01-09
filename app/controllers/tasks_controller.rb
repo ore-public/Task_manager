@@ -52,7 +52,9 @@ class TasksController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @groups = group_select_form
+  end
 
   def update
     if @task.update(format_fix(task_params))

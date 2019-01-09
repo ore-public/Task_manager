@@ -15,6 +15,7 @@ class GroupsController < ApplicationController
       users << join.user_id
     end
     @group_tasks = Task.where(user_id: users)
+                      .where(group_id: params[:id])
                       .page(params[:page]).per(20)
   end
 
