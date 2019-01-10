@@ -1,6 +1,7 @@
 <br>
 <div class="text-center">
   <%= link_to "グループ新規作成", new_group_path, class: "btn btn-secondary" %>
+  <%= link_to "グループを探す", groups_path, class: "btn btn-secondary" %>
 </div>
 <br>
 <div class="row">
@@ -11,7 +12,7 @@
           <h5 class="card-title"><%= group.title %></h5>
           <p class="card-text"><%= group.info %></p>
           <%= link_to "GO", group, class: "btn btn-primary"%>
-          <div class="">
+          <div>
             <%= link_to "編集", edit_group_path(group) if group.user_id == current_user.id %>
             <%= link_to "削除", group, method: :delete, data: { confirm: "本当に削除してもよろしいですか?" } if group.user_id == current_user.id %>
           </div>

@@ -112,6 +112,9 @@
         <%= link_to "編集", edit_task_path(task) if task.user_id == current_user.id %>
         <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除してもよろしいですか？" } if task.user_id == current_user.id %>
       </div>
+      <div class="text-right">
+        <p><%= link_to task.group.title, task.group %>　</p>
+      </div>
     </div><br>
   </div>
   <% end %>
