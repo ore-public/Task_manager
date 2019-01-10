@@ -1,11 +1,15 @@
 class GroupsController < ApplicationController
   before_action :set_mygroup, only: %i[edit update destroy]
   before_action :logged_in_check
-  before_action :correct_user_check, except: %i[index new create show]
+  before_action :correct_user_check, except: %i[index new create show all]
 
   def index
     joinner = GroupUserRelation.where(user_id: current_user.id)
     @groups = Group.where(id: joinner).order(updated_at: :desc)
+  end
+
+  def all
+    @groups = Group.all.order(created_at: :desc)
   end
 
   def show

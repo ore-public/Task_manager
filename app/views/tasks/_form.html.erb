@@ -9,6 +9,11 @@
       </ul>
     </div>
   <% end %>
+  
+  <div class="field">
+    <%= form.label :group_id %>
+    <%= form.select :group_id, @groups, class: "form-control", include_blank: true %>
+  </div>
 
   <div class="field">
     <%= form.label :title %>
@@ -30,11 +35,6 @@
     <%= form.select :status, ["未着手", "着手中", "完了"], class: "form-control" %>
     <%= form.label :priority %>
     <%= form.select :priority, Task.priorities.to_a, {}%>
-  </div>
-
-  <div class="field">
-    <%= form.label :group_id %>
-    <%= form.select :group_id, @groups, class: "form-control", include_blank: true %>
   </div>
 
   <div class="field">

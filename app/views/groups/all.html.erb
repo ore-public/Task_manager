@@ -1,8 +1,11 @@
 <br>
 <div class="text-center">
   <%= link_to "グループ新規作成", new_group_path, class: "btn btn-secondary" %>
-  <%= link_to "グループを探す", "groups/seach", class: "btn btn-secondary" %>
 </div>
+<%= form_with(model: Group.new, local: true, method: :get, url: root_path) do |f| %>
+<%= f.submit 'Search', name: nil, class: "btn btn-secondary" %>
+<% end %>
+
 <br>
 <div class="row">
   <% @groups.each do |group| %>
