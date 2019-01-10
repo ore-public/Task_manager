@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
 
   def index
     joinner = GroupUserRelation.where(user_id: current_user.id)
-    @groups = Group.where(id: joinner)
+    @groups = Group.where(id: joinner).order(updated_at: :desc)
   end
 
   def show
@@ -39,17 +39,25 @@ class GroupsController < ApplicationController
   end
 
   def edit
+    @mygroup = Group.find_by(id: params[:id])
   end
 
   def update
+    if @mygroup.update(group_params)
+      redirect_to @mygroup, notice: 'グループの編集に成功しました'
+    else
+      render :edit
+    end
   end
 
   def destroy
+    @mygroup.destroy
+    redirect_to groups_path, notice: 'グループの削除に成功しました'
   end
 
   private
   def set_mygroup
-    @mygroups = Groups.where(user_id: current_user)
+    @mygroup = Group.find_by(id: params[:id])
   end
 
   def logged_in_check

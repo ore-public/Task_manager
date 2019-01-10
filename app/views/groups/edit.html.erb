@@ -1,0 +1,27 @@
+<%= form_with(model: @mygroup, local:true) do |form| %>
+  <% if @mygroup.errors.any? %>
+    <div class="error_explanation alert alert-danger" role="alert" >
+      <h2><%= pluralize(@mygroup.errors.count, "件のエラー") %>があります。</h2>
+      <ul>
+        <% @mygroup.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :info %>
+    <%= form.text_area :info, class: "form-control", rows: 10 %>
+  </div>
+
+  <div class="ations text-center">
+    <%= form.submit %>
+  </div>
+
+<% end %>
