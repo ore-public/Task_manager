@@ -1,0 +1,2 @@
+module JoinGroupsHelper
+end

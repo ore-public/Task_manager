@@ -1,6 +1,7 @@
 <br>
 <div class="text-center">
   <%= link_to "グループ新規作成", new_group_path, class: "btn btn-secondary" %>
+  <%= link_to "所属グループ一覧", groups_path, class: "btn btn-secondary" %>
 </div>
 <%= form_with(model: Group.new, local: true, method: :get, url: root_path) do |f| %>
 <%= f.submit 'Search', name: nil, class: "btn btn-secondary" %>
@@ -14,12 +15,16 @@
         <div class="card-body">
           <h5 class="card-title"><%= group.title %></h5>
           <p class="card-text"><%= group.info %></p>
-          <%= link_to "GO", group, class: "btn btn-primary"%>
-          <div>
-            <%= link_to "編集", edit_group_path(group) if group.user_id == current_user.id %>
-            <%= link_to "削除", group, method: :delete, data: { confirm: "本当に削除してもよろしいですか?" } if group.user_id == current_user.id %>
-          </div>
+          <% if group.joinner.ids.include?(current_user.id) %>
+            <%= link_to "GO", group, class: "btn btn-primary"%>
+          <% else %>
+            <%= link_to "参加する", join_groups_path(params: {group_id: group.id}), method: :post, class: "btn btn-success" %>
+          <% end %>
           <div class="text-right">
+            <% if group.user_id == current_user.id %>
+              <%= link_to "編集", edit_group_path(group)  %>
+              <%= link_to "削除", group, method: :delete, data: { confirm: "本当に削除してもよろしいですか?" } if group.user_id == current_user.id %>
+            <% end %>
             <p>by <%= group.user.name %></p>
           </div>
         </div>

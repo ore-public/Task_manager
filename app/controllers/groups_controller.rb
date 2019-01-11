@@ -5,12 +5,11 @@ class GroupsController < ApplicationController
   before_action :correct_member_check, only: %i[show]
 
   def index
-    joinner = GroupUserRelation.where(user_id: current_user.id)
-    @groups = Group.where(id: joinner).order(updated_at: :desc)
+    @groups = Group.where(id: current_user.joined.ids).order(updated_at: :desc)
   end
 
   def all
-    @groups = Group.all.order(created_at: :desc)
+    @groups = Group.includes(:joinner).all.order(created_at: :desc)
   end
 
   def show
@@ -74,7 +73,8 @@ class GroupsController < ApplicationController
   end
 
   def correct_member_check
-    redirect_to root_path unless Group.find_by(id: params[:id]).joinner.ids.include?(current_user.id)
+    redirect_to groups_path, notice: '参加ユーザー以外閲覧出来ません' unless Group.find_by(id: params[:id])
+                                                                            .joinner.ids.include?(current_user.id)
   end
 
   def group_params
