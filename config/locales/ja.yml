@@ -10,6 +10,7 @@ ja:
         deadline: "終了期日"
         status: "状況"
         priority: "優先度"
+        label: "ラベル"
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
@@ -19,6 +20,13 @@ ja:
         not_saved:
           one: "1つのエラーにより、%{resource} を保存できませんでした："
           other: "%{count} 個のエラーにより、%{resource} を保存できませんでした："
+  views:
+    pagination:
+      previous: "« 前"
+      next: "次 »"
+      truncate: "..."
+      first: "最初"
+      last: "最後"
   date:
     abbr_day_names:
     - 日

@@ -46,10 +46,22 @@
   </div>
 
   <% end %>
-  
+
 </div>
+
 <br>
+<% unless @deadline_close.zero? %>
+  <div class="alert alert-info">
+    <%= "期限間近(3日以内)のタスクが#{@deadline_close}件あります" %>
+  </div>
+<% end %>
+<% unless @deadline_over.zero? %>
+  <div class="alert alert-danger">
+    <%= "完了出来ずに期限を超過したタスクが#{@deadline_over}件あります" %>
+  </div>
+<% end %>
 <br>
+
 <% page_entries_info @tasks %>
 
 <div class="row">
@@ -57,7 +69,14 @@
   <div class="col-md-6 col-sm-12">
     <div class="card">
       <div class="card-header">
-        <h5><%= task.title %></h5>
+        <h5><%= task.title %>　
+          <%  if task.deadline < DateTime.now + 3 && task.deadline > DateTime.now %>
+            <span class="badge badge-danger">期限間近</span>
+          <% end %>
+          <%  if task.deadline < DateTime.now && task.status != "完了" %>
+            <span class="badge badge-secondary">期限超過</span>
+          <% end %>
+        </h5>
         <h6>期限：<%= task.deadline.strftime('%Y/%m/%d %H:%M') %></h6>
 
         <% if task.status == "未着手" %>

@@ -26,7 +26,7 @@
 >$ git clone git://github.com/miball0202/Task_manager.git
 
 データベースのマイグレートを行います。
->$ rail db:create  
+>$ rails db:create  
 >$ rails db:migrate  
 
 サーバーを立ち上げてご自身のローカル環境で動作を確認してください。
@@ -104,5 +104,3 @@ Herokuにデプロイします。
 |:----------|:-------|
 | id        | integer|
 | name      | string |
-
-`test`
