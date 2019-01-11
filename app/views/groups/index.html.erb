@@ -12,11 +12,11 @@
           <h5 class="card-title"><%= group.title %></h5>
           <p class="card-text"><%= group.info %></p>
           <%= link_to "GO", group, class: "btn btn-primary"%>
-          <div>
-            <%= link_to "編集", edit_group_path(group) if group.user_id == current_user.id %>
-            <%= link_to "削除", group, method: :delete, data: { confirm: "本当に削除してもよろしいですか?" } if group.user_id == current_user.id %>
-          </div>
           <div class="text-right">
+            <% if group.user_id == current_user.id %>
+              <%= link_to "編集", edit_group_path(group)  %>
+              <%= link_to "削除", group, method: :delete, data: { confirm: "本当に削除してもよろしいですか?" } if group.user_id == current_user.id %>
+            <% end %>
             <p>by <%= group.user.name %></p>
           </div>
         </div>
