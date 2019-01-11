@@ -11,6 +11,6 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
 
   has_many :tasks, dependent: :destroy
-  has_many :group_user_relations
+  has_many :group_user_relations, dependent: :destroy
   has_many :joined, through: :group_user_relations, source: :group
 end

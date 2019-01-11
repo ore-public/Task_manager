@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_action :set_mygroup, only: %i[edit update destroy]
+  before_action :set_mygroup, only: %i[edit update destroy show]
   before_action :logged_in_check
   before_action :correct_user_check, except: %i[index new create show all]
   before_action :correct_member_check, only: %i[show]
@@ -13,13 +13,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    users = []
-    joined = GroupUserRelation.where(group_id: params[:id])
-    joined.each do |join|
-      users << join.user_id
-    end
-    @group_tasks = Task.where(user_id: users)
-                      .where(group_id: params[:id])
+    @group_tasks = Task.where(user_id: @mygroup.joinner.ids)
+                      .where(group_id: @mygroup.id)
                       .page(params[:page]).per(20)
   end
 

@@ -45,6 +45,7 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(format_fix(task_params))
+    @groups = group_select_form
     if @task.save
       label_maker(@label) unless @label.nil?
       redirect_to @task, notice: 'タスクの保存に成功しました'

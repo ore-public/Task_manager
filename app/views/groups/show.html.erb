@@ -1,4 +1,21 @@
 <br>
+<ul class="nav nav-tabs" id="accordionExample">
+  <li class="nav-item">
+    <%= link_to @mygroup.title, group_path, class: "nav-link active" %>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Members
+    </a>
+  </li>
+</ul>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <% @mygroup.joinner.each do |joinner| %>
+      <%= joinner.name %><br>
+    <% end %>
+  </div>
+</div>
 
 <% page_entries_info @group_tasks %>
 
