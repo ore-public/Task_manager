@@ -3,7 +3,8 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show edit update destroy]
   before_action :logged_in_check
-  before_action :correct_user_check, except: %i[index new create]
+  before_action :correct_user_check, except: %i[index new create show]
+  before_action :correct_member_check, only: %i[show]
   def index
     if params[:task]
       @tasks = Task.includes(:stuck_labels)
@@ -88,6 +89,10 @@ class TasksController < ApplicationController
 
   def correct_user_check
     redirect_to root_path if @task.user_id != current_user.id
+  end
+
+  def correct_member_check
+    redirect_to groups_path, notice: '参加ユーザー以外閲覧出来ません' unless current_user.joined.ids.include?(@task.group_id)
   end
 
   def task_params
