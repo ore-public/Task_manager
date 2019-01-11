@@ -11,6 +11,7 @@ class Task < ApplicationRecord
   belongs_to :user
   has_many :task_label_relations, dependent: :destroy
   has_many :stuck_labels, through: :task_label_relations, source: :label
+  # 別名はつけなくていいと思う
   accepts_nested_attributes_for :task_label_relations, allow_destroy: true
 
 

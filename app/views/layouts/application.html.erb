@@ -18,9 +18,11 @@
           <a class="navbar-brand" href="/sessions/new">TaskManager</a>
         <% end %>
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <%= link_to "New", new_task_path, class: "nav-link" if logged_in? %>
-          </li>
+          <% if logged_in? %>
+            <li class="nav-item">
+              <%= link_to "New", new_task_path, class: "nav-link" %>
+            </li>
+          <% end %>
           <li class="nav-item">
             <%= link_to "Log in",  new_session_path, class: "nav-link" unless logged_in? %>
           </li>

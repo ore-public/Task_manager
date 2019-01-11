@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2018_12_24_055028) do
   end
 
   create_table "task_label_relations", force: :cascade do |t|
-    t.bigint "task_id"
-    t.bigint "label_id"
+    t.bigint "task_id" # null: falseにしたほうがいい foreign_key
+    t.bigint "label_id" # null: falseにしたほうがいい foreign_key
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["label_id"], name: "index_task_label_relations_on_label_id"
@@ -36,12 +36,14 @@ ActiveRecord::Schema.define(version: 2018_12_24_055028) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deadline", default: -> { "now()" }, null: false
-    t.string "status", default: "未着手", null: false
+    t.string "status", default: "未着手", null: false #日本語で持たないほうがいいよ
     t.integer "priority", default: 2, null: false
-    t.bigint "user_id"
+    t.bigint "user_id" # null: false
     t.index ["priority"], name: "index_tasks_on_priority"
     t.index ["title"], name: "index_tasks_on_title"
     t.index ["user_id"], name: "index_tasks_on_user_id"
+    # [index shotgun] についてググってみるといいよ！
+    # 書籍だと、「SQLアンチパターン」という本が、DBの勉強になっていいよ！
   end
 
   create_table "users", force: :cascade do |t|
