@@ -2,6 +2,7 @@ class GroupsController < ApplicationController
   before_action :set_mygroup, only: %i[edit update destroy]
   before_action :logged_in_check
   before_action :correct_user_check, except: %i[index new create show all]
+  before_action :correct_member_check, only: %i[show]
 
   def index
     joinner = GroupUserRelation.where(user_id: current_user.id)
@@ -70,6 +71,10 @@ class GroupsController < ApplicationController
 
   def correct_user_check
     redirect_to root_path if @mygroup.user_id != current_user.id
+  end
+
+  def correct_member_check
+    redirect_to root_path unless Group.find_by(id: params[:id]).joinner.ids.include?(current_user.id)
   end
 
   def group_params
