@@ -8,13 +8,6 @@ class GroupsController < ApplicationController
     @groups = Group.where(id: current_user.joined.ids).order(updated_at: :desc)
   end
 
-  def all
-    @groups = Group.includes(:joinner)
-                    .all.order(created_at: :desc)
-                    .page(params[:page]).per(20)
-
-  end
-
   def show
     @group_tasks = Task.where(user_id: @mygroup.joinner.ids)
                       .where(group_id: @mygroup.id)

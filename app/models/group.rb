@@ -6,4 +6,7 @@ class Group < ApplicationRecord
   has_many :tasks, dependent: :destroy
   has_many :group_user_relations, dependent: :destroy
   has_many :joinner, through: :group_user_relations, source: :user
+
+  scope :title_search, ->(groups) { where(['title LIKE ?', "%#{groups[:search]}%"]) if groups[:search].present? }
+
 end
