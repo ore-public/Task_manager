@@ -3,11 +3,15 @@
   <%= link_to "グループ新規作成", new_group_path, class: "btn btn-secondary" %>
   <%= link_to "所属グループ一覧", groups_path, class: "btn btn-secondary" %>
 </div>
-<%= form_with(model: Group.new, local: true, method: :get, url: root_path) do |f| %>
-<%= f.submit 'Search', name: nil, class: "btn btn-secondary" %>
-<% end %>
-
+<div class="text-right">
+  <%= form_with(model: Group.new, local: true, method: :get, url: root_path) do |f| %>
+  <%= f.submit 'Search', name: nil, class: "btn btn-secondary" %>
+  <% end %>
+</div>
 <br>
+
+<% page_entries_info @groups %>
+
 <div class="row">
   <% @groups.each do |group| %>
     <div class="col-md-6 col-sm-12">
@@ -32,3 +36,8 @@
     </div>
   <% end %>
 </div>
+
+<div class="text-center">
+  <%= paginate @groups %>
+</div>
+<br>

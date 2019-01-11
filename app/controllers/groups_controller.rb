@@ -9,7 +9,10 @@ class GroupsController < ApplicationController
   end
 
   def all
-    @groups = Group.includes(:joinner).all.order(created_at: :desc)
+    @groups = Group.includes(:joinner)
+                    .all.order(created_at: :desc)
+                    .page(params[:page]).per(20)
+
   end
 
   def show
