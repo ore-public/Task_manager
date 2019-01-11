@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   before_action :correct_member_check, only: %i[show]
 
   def index
-    @groups = Group.where(id: current_user.joined.ids).order(updated_at: :desc)
+    @groups = Group.includes(:joinner).where(id: current_user.joined.ids).order(updated_at: :desc)
   end
 
   def show
